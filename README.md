@@ -1,12 +1,4 @@
-*.class
+Programación evolutiva
+======================
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# Eclipse Files #
-.classpath
-.project
-.settings
-.metadata/
+Implementación de un algoritmo genético clásico para hallar el máximo o mínimo de diferentes funciones.
