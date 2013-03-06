@@ -9,7 +9,7 @@ public class Controlador {
 	private static InterfazGrafica interfaz;
 	private static AlgoritmoGenetico genetico;
 	
-	public static void main (String[] args){
+	public static void _main (String[] args){
 		interfaz = new InterfazGrafica();
 		genetico = new AlgoritmoGenetico();
 		
@@ -19,15 +19,11 @@ public class Controlador {
 		
 	}
 	
-	/*
+	
 	public static void main (String[] args)
 	{
-		System.out.print("Empezamos \n");
+		System.out.print("1101 => " + Integer.parseInt("1101", 2));
 		
-		double aux = 1 + ( (2 - (-3)) / 0.1);	
-		aux = (Math.log(aux) / Math.log(2));
-		System.out.println ( "====> " + aux + "\n");
-		System.out.println ( "====> " + (int) Math.ceil(aux) + "\n");
 	}
-	*/
+	
 }

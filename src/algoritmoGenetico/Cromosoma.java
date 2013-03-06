@@ -1,11 +1,14 @@
 package algoritmoGenetico;
 
+import java.text.DecimalFormat;
+
 public abstract class Cromosoma {
 	protected boolean[] genes;
 	protected double fenotipo;
 	protected double aptitud;
 	protected double puntuacion;
 	protected double puntuacionAcumulada;
+	protected int longitud;
 	
 	public boolean[] getGenes() {
 		return genes;
@@ -38,6 +41,13 @@ public abstract class Cromosoma {
 		this.puntuacionAcumulada = puntuacionAcumulada;
 	}
 	
+	public int getLongitud() {
+		return longitud;
+	}
+	public void setLongitud(int longitud) {
+		this.longitud = longitud;
+	}
+	
 	protected boolean[] inicializarGenes(int longitud)
 	{
 		boolean[] genes = new boolean[longitud];
@@ -68,12 +78,27 @@ public abstract class Cromosoma {
 		return (int) Math.ceil(aux);
 	}
 	
-	protected int calcularFenotipo(int longitud, int xMax, int xMin)
+	/**
+	 * 
+	 * @param longitud
+	 * @param xMax
+	 * @param xMin
+	 * @return
+	 */
+	protected double calcularFenotipo(int longitud, int xMax, int xMin)
 	{
-		// TODO 
-		double aux = (xMax - xMin) / ((Math.pow(2, longitud) - 1));
-		
-		
-		
+		return (xMin + (xMax - xMin) * Integer.parseInt(genes.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
+	}	
+	
+	/**
+	 * 
+	 * @param posicion
+	 * @param gen
+	 */
+	protected void setGen(int posicion, boolean gen)
+	{
+		this.genes[posicion] = gen;
 	}
+
+	protected abstract double evaluarCromosoma();
 }

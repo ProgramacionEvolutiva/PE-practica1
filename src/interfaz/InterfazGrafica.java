@@ -9,7 +9,7 @@ public class InterfazGrafica extends JFrame{
 
 	public Parametros getParametros(){
 		//TODO
-		return new Parametros(100, 10, 0.7, 0.01, 0.0001);
+		return new Parametros(6, 2, 0.7, 0.01, 0.01);
 	}
 	
 	/**
