@@ -4,8 +4,17 @@ public abstract class Cromosoma {
 	protected boolean[] genes;
 	protected double fenotipo;
 	protected double aptitud;
-	protected double puntuacion;
 	protected double puntuacionAcumulada;
+	
+	public Cromosoma(){}
+	
+	public Cromosoma(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
+	{
+		this.genes = genes;
+		this.fenotipo = fenotipo;
+		this.aptitud = aptitud;
+		this.puntuacionAcumulada = puntuacionAcumulada;
+	}
 	
 	public boolean[] getGenes() {
 		return genes;
@@ -24,12 +33,6 @@ public abstract class Cromosoma {
 	}
 	public void setAptitud(double aptitud) {
 		this.aptitud = aptitud;
-	}
-	public double getPuntuacion() {
-		return puntuacion;
-	}
-	public void setPuntuacion(double puntuacion) {
-		this.puntuacion = puntuacion;
 	}
 	public double getPuntuacionAcumulada() {
 		return puntuacionAcumulada;
@@ -68,12 +71,35 @@ public abstract class Cromosoma {
 		return (int) Math.ceil(aux);
 	}
 	
-	protected int calcularFenotipo(int longitud, int xMax, int xMin)
+	/**
+	 * 
+	 * @param longitud
+	 * @param xMax
+	 * @param xMin
+	 * @return
+	 */
+	protected double calcularFenotipo(int longitud, int xMax, int xMin)
 	{
-		// TODO 
-		double aux = (xMax - xMin) / ((Math.pow(2, longitud) - 1));
-		
-		
-		
+		return (xMin + (xMax - xMin) * Integer.parseInt(this.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
+	}	
+	
+	protected abstract Cromosoma clone();
+	
+	/**
+	 * 
+	 * @param posicion
+	 * @param gen
+	 */
+	protected void setGen(int posicion, boolean gen)
+	{
+		this.genes[posicion] = gen;
 	}
+
+	protected void mutaGen(int posicion)
+	{
+		this.genes[posicion] = !this.genes[posicion];
+	}
+	
+	protected abstract double evaluarCromosoma();
+	
 }

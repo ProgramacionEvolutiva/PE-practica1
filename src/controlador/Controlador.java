@@ -1,8 +1,9 @@
 package controlador;
 
+import interfaz.InterfazGrafica;
+import interfaz.Parametros;
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.Cromosoma;
-import interfaz.InterfazGrafica;
 
 public class Controlador {
 
@@ -10,24 +11,20 @@ public class Controlador {
 	private static AlgoritmoGenetico genetico;
 	
 	public static void main (String[] args){
-		interfaz = new InterfazGrafica();
-		genetico = new AlgoritmoGenetico();
-		
-		Cromosoma cromosomaMejor = genetico.algoritmo_genetico(interfaz.getParametros());
-		
-		interfaz.mostrar(cromosomaMejor);
+		Controlador c=new Controlador();
+		interfaz = new InterfazGrafica(c);
 		
 	}
 	
-	/*
-	public static void main (String[] args)
+	public void lanzaGenetico(Parametros parametros)
 	{
-		System.out.print("Empezamos \n");
+
+		genetico = new AlgoritmoGenetico();
 		
-		double aux = 1 + ( (2 - (-3)) / 0.1);	
-		aux = (Math.log(aux) / Math.log(2));
-		System.out.println ( "====> " + aux + "\n");
-		System.out.println ( "====> " + (int) Math.ceil(aux) + "\n");
+		Cromosoma cromosomaMejor = genetico.algoritmo_genetico(parametros);
+		
+		interfaz.mostrar(cromosomaMejor);
 	}
-	*/
+	
+	
 }

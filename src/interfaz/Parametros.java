@@ -6,7 +6,7 @@ public class Parametros {
 	private double probCruce;
 	private double probMutacion;
 	private double tolerancia;	
-
+	
 	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia){
 		this.tamPoblacion = tam;
 		this.numGeneraciones = generaciones;
