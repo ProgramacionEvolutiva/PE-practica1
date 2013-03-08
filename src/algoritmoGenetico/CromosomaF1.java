@@ -34,7 +34,7 @@ public class CromosomaF1 extends Cromosoma
 		}
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
-		this.aptitud = evaluarCromosoma(); //FIXME
+		this.aptitud = evaluarCromosoma();
 	}
 	
 
@@ -51,19 +51,7 @@ public class CromosomaF1 extends Cromosoma
 		double valor= Math.E *(-20*Math.pow(Math.E,exp));
 		valor*=-Math.pow(Math.E, Math.cos(2*Math.PI*x));
 		return 20+valor;
-	}
-	
-	@Override
-	public String toString()
-	{
-		String s = "";
-		for (int i = 0; i < longitud; i++) {
-			if (this.genes[i]) s += "1";
-			else s += "0";
-		}
-		return s ;
-	}
-	
+	}	
 
 	protected CromosomaF1 clone()
 	{

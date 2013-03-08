@@ -8,14 +8,34 @@ public class AlgoritmoGenetico {
 	public Cromosoma algoritmo_genetico(Parametros parametros) {
 		// Obtenemos la poblacion inicial 
 		Cromosoma[] pob = poblacion_inicial(parametros); 
-		int pos_mejor = evaluarPoblacion(pob);
+		int pos_mejor = evaluarPoblacion(pob);	
+
+		//Inicializamos el mejor cromosoma
+		Cromosoma mejor=null;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
-		// FIXME: parametros => funcion seleccionada
-		this.longitudCromosoma = CromosomaF1.getLongitud();
-		
-		//Inicializamos el mejor cromosoma
-		Cromosoma mejor= new CromosomaF1(longitudCromosoma);
+		switch(parametros.getFuncion()) {
+			case 1:
+				this.longitudCromosoma = CromosomaF1.getLongitud();
+				mejor= new CromosomaF1(parametros.getTolerancia());
+				break;
+			case 2:
+				this.longitudCromosoma = CromosomaF2.getLongitud();
+				mejor= new CromosomaF2(parametros.getTolerancia());
+				break;
+			case 3:
+				this.longitudCromosoma = CromosomaF3.getLongitud();
+				mejor= new CromosomaF3(parametros.getTolerancia());
+				break;
+			case 4:
+				this.longitudCromosoma = CromosomaF4.getLongitud();
+				mejor= new CromosomaF4(parametros.getTolerancia());
+				break;
+			case 5:
+				this.longitudCromosoma = CromosomaF5.getLongitud();
+				mejor= new CromosomaF5(parametros.getTolerancia());
+				break;
+		}
 		
 		// bucle de evolución
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
@@ -26,6 +46,7 @@ public class AlgoritmoGenetico {
 			if (pob[pos_mejor].getAptitud()>mejor.getAptitud()){
 				mejor=pob[pos_mejor].clone();
 			}
+			mejor.mostrar();
 		}
 		return mejor;
 	}
@@ -76,9 +97,33 @@ public class AlgoritmoGenetico {
 		// 2. Contador seleccionados
 		int numSelCruce = 0;
 		int puntoCruce;
-		double prob;
-		Cromosoma hijo1 = new CromosomaF1(longitudCromosoma);
-		Cromosoma hijo2 = new CromosomaF1(longitudCromosoma);
+		double prob;		
+
+		//Inicializamos los hijos
+		Cromosoma hijo1=null;
+		Cromosoma hijo2=null;
+		switch(parametros.getFuncion()) {
+			case 1:
+				hijo1 = new CromosomaF1(parametros.getTolerancia());
+				hijo2 = new CromosomaF1(parametros.getTolerancia());
+				break;
+			case 2:
+				hijo1 = new CromosomaF2(parametros.getTolerancia());
+				hijo2 = new CromosomaF2(parametros.getTolerancia());
+				break;
+			case 3:
+				hijo1 = new CromosomaF3(parametros.getTolerancia());
+				hijo2 = new CromosomaF3(parametros.getTolerancia());
+				break;
+			case 4:
+				hijo1 = new CromosomaF4(parametros.getTolerancia());
+				hijo2 = new CromosomaF4(parametros.getTolerancia());
+				break;
+			case 5:
+				hijo1 = new CromosomaF5(parametros.getTolerancia());
+				hijo2 = new CromosomaF5(parametros.getTolerancia());
+				break;
+		}
 		
 		// 3. Se eligen los individuos a cruzar
 		for (int i=0; i<parametros.getNumGeneraciones(); i++){
@@ -168,9 +213,24 @@ public class AlgoritmoGenetico {
 		
 		for (int i = 0; i < tam; i++)
 		{
-			pob[i] = new CromosomaF1(param.getTolerancia());
-		}
-		
+			switch(param.getFuncion()) {
+			case 1:
+				pob[i] = new CromosomaF1(param.getTolerancia());
+				break;
+			case 2:
+				pob[i] = new CromosomaF2(param.getTolerancia());
+				break;
+			case 3:
+				pob[i] = new CromosomaF3(param.getTolerancia());
+				break;
+			case 4:
+				pob[i] = new CromosomaF4(param.getTolerancia());
+				break;
+			case 5:
+				pob[i] = new CromosomaF5(param.getTolerancia());
+				break;
+			}
+		}		
 		return pob;
 	}
 	

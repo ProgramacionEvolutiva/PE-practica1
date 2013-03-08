@@ -33,10 +33,10 @@ public class InterfazGrafica extends JFrame{
 	public InterfazGrafica(Controlador c) 
 	{
 		this.controlador = c;
-		propiedadesBasicas();
-		this.setContentPane(obtenerPanelPrincipal());
+		//propiedadesBasicas();
+		//this.setContentPane(obtenerPanelPrincipal());
 		
-		this.parametros = new Parametros(-1, -1, -1, -1, -1);
+		//this.parametros = new Parametros(-1, -1, -1, -1, -1, 1);
 	}
 	
 	private JPanel obtenerPanelPrincipal()
@@ -76,8 +76,7 @@ public class InterfazGrafica extends JFrame{
 	}
 	
 	public Parametros getParametros(){
-		//TODO
-		return new Parametros(100, 100, 0.7, 0.01, 0.01);
+		return parametros;
 	}
 	
 	/**

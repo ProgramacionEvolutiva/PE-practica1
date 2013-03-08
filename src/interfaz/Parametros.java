@@ -5,14 +5,16 @@ public class Parametros {
 	private int numGeneraciones;
 	private double probCruce;
 	private double probMutacion;
-	private double tolerancia;	
+	private double tolerancia;
+	private int funcion;
 	
-	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia){
+	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia, int funcion){
 		this.tamPoblacion = tam;
 		this.numGeneraciones = generaciones;
 		this.probCruce = cruce;
 		this.probMutacion = mutacion;
 		this.tolerancia = tolerancia;
+		this.funcion = funcion;
 	}
 	
 	public int getTamPoblacion() {
@@ -44,5 +46,13 @@ public class Parametros {
 	}
 	public void setTolerancia(double tolerancia) {
 		this.tolerancia = tolerancia;
+	}
+
+	public int getFuncion() {
+		return funcion;
+	}
+
+	public void setFuncion(int funcion) {
+		this.funcion = funcion;
 	}
 }

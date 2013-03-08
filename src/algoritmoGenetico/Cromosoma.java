@@ -53,8 +53,7 @@ public abstract class Cromosoma {
 			} else {
 				genes[i] = true;
 			}
-		}
-		
+		}		
 		return genes;
 	}
 	
@@ -71,6 +70,25 @@ public abstract class Cromosoma {
 		return (int) Math.ceil(aux);
 	}
 	
+
+	/**
+	 * @param tolerancia
+	 * @param valor máximo del intervalo de x
+	 * @param valor mínimo del intervalo de x
+	 * @param valor máximo del intervalo de y
+	 * @param valor mínimo del intervalo de y
+	 * @return longitud
+	 */
+	protected int calcularLongitud(double tolerancia, double xMax, double xMin, double yMax, double yMin, int longitudx, int longitudy) {
+		double longx = 1 + ( (xMax - xMin) / tolerancia);	
+		longx = (Math.log(longx) / Math.log(2));
+		longitudx = (int) Math.ceil(longx);
+		double longy = 1 + ( (yMax - yMin) / tolerancia);	
+		longy = (Math.log(longy) / Math.log(2));
+		longitudy = (int) Math.ceil(longy);
+		return longitudx + longitudy;
+	}
+	
 	/**
 	 * 
 	 * @param longitud
@@ -83,7 +101,14 @@ public abstract class Cromosoma {
 		return (xMin + (xMax - xMin) * Integer.parseInt(this.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
 	}	
 	
-	protected abstract Cromosoma clone();
+	protected abstract Cromosoma clone();	
+
+
+	protected double calcularFenotipo(int longitud, double xMax, double xMin)
+	{
+		return (xMin + (xMax - xMin) * Integer.parseInt(this.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
+	}
+	
 	
 	/**
 	 * 
@@ -98,6 +123,24 @@ public abstract class Cromosoma {
 	protected void mutaGen(int posicion)
 	{
 		this.genes[posicion] = !this.genes[posicion];
+	}
+	
+	@Override
+	public String toString()
+	{
+		String s = "";
+		for (int i = 0; i < genes.length; i++) {
+			if (this.genes[i]) s += "1";
+			else s += "0";
+		}
+		return s ;
+	}
+	
+
+	public void mostrar(){
+		// TODO
+		System.out.println("Solucion => " + toString() + " Fenotipo =>" + getFenotipo() +
+				" Aptitud =>" + getAptitud());
 	}
 	
 	protected abstract double evaluarCromosoma();

@@ -13,7 +13,7 @@ public class Controlador {
 	public static void main (String[] args){
 		Controlador c=new Controlador();
 		interfaz = new InterfazGrafica(c);
-		
+		c.lanzaGenetico(new Parametros(100, 100, 0.7, 0.01, 0.001, 3));
 	}
 	
 	public void lanzaGenetico(Parametros parametros)
