@@ -2,62 +2,118 @@ package algoritmoGenetico;
 
 import interfaz.Parametros;
 
+/**
+ * Clase que implementa el algoritmo genetico principal
+ * 
+ */
 public class AlgoritmoGenetico {
 	private int longitudCromosoma;
 
+	/**
+	 * Implementacion del algoritmo genetico
+	 * 
+	 * @param parametros del problema
+	 * @return el mejor cromosoma encontrado
+	 */
 	public Cromosoma algoritmo_genetico(Parametros parametros) {
 		// Obtenemos la poblacion inicial 
 		Cromosoma[] pob = poblacion_inicial(parametros); 
 		int pos_mejor = evaluarPoblacion(pob);	
 
-		//Inicializamos el mejor cromosoma
-		Cromosoma mejor=null;
+		//mejor cromosoma
+		Cromosoma mejor;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
-		switch(parametros.getFuncion()) {
+		int funcionSeleccionada = parametros.getFuncion();
+		switch(funcionSeleccionada) {
 			case 1:
-				this.longitudCromosoma = CromosomaF1.getLongitud();
+				this.longitudCromosoma = CromosomaF1.longitud;
 				mejor= new CromosomaF1(parametros.getTolerancia());
 				break;
 			case 2:
-				this.longitudCromosoma = CromosomaF2.getLongitud();
+				this.longitudCromosoma = CromosomaF2.longitud;
 				mejor= new CromosomaF2(parametros.getTolerancia());
 				break;
 			case 3:
-				this.longitudCromosoma = CromosomaF3.getLongitud();
+				this.longitudCromosoma = CromosomaF3.longitud;
 				mejor= new CromosomaF3(parametros.getTolerancia());
 				break;
 			case 4:
-				this.longitudCromosoma = CromosomaF4.getLongitud();
+				this.longitudCromosoma = CromosomaF4.longitud;
 				mejor= new CromosomaF4(parametros.getTolerancia());
 				break;
 			case 5:
-				this.longitudCromosoma = CromosomaF5.getLongitud();
+				this.longitudCromosoma = CromosomaF5.longitud;
 				mejor= new CromosomaF5(parametros.getTolerancia());
 				break;
+			default: 
+				this.longitudCromosoma = CromosomaF1.longitud;
+				mejor= new CromosomaF1(parametros.getTolerancia());
 		}
-		
-		// bucle de evolución
+
+		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
+			// 1) seleccion
 			pob = seleccion(pob, parametros);
+			
+			// 2) reproduccion
 			pob = reproduccion(pob, parametros);
+			
+			// 3) mutacion
 			mutacion(pob, parametros);
+			
+			// 4) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
 			if (pob[pos_mejor].getAptitud()>mejor.getAptitud()){
 				mejor=pob[pos_mejor].clone();
 			}
-			mejor.mostrar();
+			// mejor.mostrar();
 		}
+		
 		return mejor;
 	}
 
-	/**
-	 * La función de selección escoge un número de supervivientes
-	 * igual al tamaño de la población.
+	/** 
+	 * Metodo para obtener una poblacion inicial aleatoria
 	 * 
-	 * Método de selección => Selección por ruleta.
-	 * @param pob
-	 * @param parametros
+	 * @param parametros del problema
+	 * @return poblacion generada
+	 */
+	private Cromosoma[] poblacion_inicial(Parametros param) 
+	{
+		int tam = param.getTamPoblacion();
+		Cromosoma[] pob = new Cromosoma[tam];
+		
+		for (int i = 0; i < tam; i++) {
+			switch(param.getFuncion()) {
+			case 1:
+				pob[i] = new CromosomaF1(param.getTolerancia());
+				break;
+			case 2:
+				pob[i] = new CromosomaF2(param.getTolerancia());
+				break;
+			case 3:
+				pob[i] = new CromosomaF3(param.getTolerancia());
+				break;
+			case 4:
+				pob[i] = new CromosomaF4(param.getTolerancia());
+				break;
+			case 5:
+				pob[i] = new CromosomaF5(param.getTolerancia());
+				break;
+			}
+		}		
+		return pob;
+	}
+	
+	/**
+	 * La funcion de seleccion escoge un numero de supervivientes
+	 * igual al tam de la poblacion.
+	 * 
+	 * Metodo de seleccion => Seleccion por ruleta.
+	 * 
+	 * @param poblacion
+	 * @param parametros del problema
 	 * @return Poblacion seleccionada
 	 */
 	private Cromosoma[] seleccion(Cromosoma[] pob, Parametros parametros) 
@@ -81,14 +137,12 @@ public class AlgoritmoGenetico {
 	}
 
 	/**
-	 * La reproducción consiste en la selección
-	 * de los individuos a reproducirse entre los de la población
-	 * resultante, y en la aplicación del operador de cruce a cada
-	 * una de las parejas.
-
-	 * @param pob
-	 * @param parametros
-	 * @return nueva poblacion
+	 * La reproduccion consiste en la seleccion de los individuos a reproducirse
+	 * y en la aplicacion del operador de cruce a cada una de las parejas.
+	 * 
+	 * @param poblacion
+	 * @param parametros del problema
+	 * @return nueva poblacion resultante
 	 */
 	private Cromosoma[] reproduccion(Cromosoma[] pob, Parametros parametros) 
 	{
@@ -152,10 +206,10 @@ public class AlgoritmoGenetico {
 	}
 
 	/**
+	 * La mutacion cambia ciertos genes de ciertos individuos de la poblacion
 	 * 
-	 * @param pob
-	 * @param param
-	 * @return
+	 * @param poblacion
+	 * @param paramametros del problema
 	 */
 	private void mutacion(Cromosoma[] pob, Parametros parametros)
 	{
@@ -169,34 +223,6 @@ public class AlgoritmoGenetico {
 			}
 		}
 		
-	}
-	
-	private Cromosoma[] poblacion_inicial(Parametros param) 
-	{
-		int tam = param.getTamPoblacion();
-		Cromosoma[] pob = new Cromosoma[tam];
-		
-		for (int i = 0; i < tam; i++)
-		{
-			switch(param.getFuncion()) {
-			case 1:
-				pob[i] = new CromosomaF1(param.getTolerancia());
-				break;
-			case 2:
-				pob[i] = new CromosomaF2(param.getTolerancia());
-				break;
-			case 3:
-				pob[i] = new CromosomaF3(param.getTolerancia());
-				break;
-			case 4:
-				pob[i] = new CromosomaF4(param.getTolerancia());
-				break;
-			case 5:
-				pob[i] = new CromosomaF5(param.getTolerancia());
-				break;
-			}
-		}		
-		return pob;
 	}
 
 	/**

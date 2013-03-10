@@ -1,7 +1,40 @@
 package algoritmoGenetico;
 
-public class CromosomaF4 extends Cromosoma {
-
+/**
+ * Atributos heredados
+ *  ---------------------	
+ *  private boolean[] genes;
+ *  private double fenotipo;
+ *  private double aptitud;
+ *  private double puntuacion;
+ *  private double puntuacionAcumulada;
+ *  protected int longitud;
+ * 
+ * Metodos abstractos
+ *  ----------------------------------
+ *  evaluarCromosoma()
+ *  clone() 
+ * 
+ * Metodos implementados 
+ *  ----------------------------------
+ *  inicializarGenes(int)
+ *  calcularLongitud(double, int, int)
+ *  calcularLongitud(double, double, double, double, double, int, int)
+ *  calcularFenotipo(int, int, int)
+ *  setGen(int, boolean)
+ *  mutaGen(int)
+ *  toString()
+ *  mostrar()
+ */
+public class CromosomaF4 extends Cromosoma 
+{
+	/* Valores definidos en el problema */
+	// TODO
+	private static final int xMax = 0;
+	private static final int xMin = 0;
+	
+	public static int longitud = -1;
+	
 	public CromosomaF4(double d) {
 		// TODO Auto-generated constructor stub
 	}
@@ -17,10 +50,4 @@ public class CromosomaF4 extends Cromosoma {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	public static int getLongitud() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }

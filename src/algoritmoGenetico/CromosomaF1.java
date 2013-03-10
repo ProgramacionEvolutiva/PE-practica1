@@ -2,32 +2,37 @@ package algoritmoGenetico;
 
 /**
  * Atributos heredados
- * ---------------------	
- * private boolean[] genes;
- * private double fenotipo;
- * private double aptitud;
- * private double puntuacion;
- * private double puntuacionAcumulada;
- * protected int longitud;
+ *  ---------------------	
+ *  private boolean[] genes;
+ *  private double fenotipo;
+ *  private double aptitud;
+ *  private double puntuacion;
+ *  private double puntuacionAcumulada;
+ *  protected int longitud;
  * 
- *  Metodos heredados 
+ * Metodos abstractos
  *  ----------------------------------
+ *  evaluarCromosoma()
+ *  clone() 
  * 
- *  protected boolean[] inicializarGenes(int longitud)
- *	protected int calcularLongitud(double tolerancia, int xMax, int xMin)
- *  protected int calcularFenotipo(int longitud, int xMax, int xMin)
- *  protected void setGen(int posicion, boolean gen)
- *  
+ * Metodos implementados 
+ *  ----------------------------------
+ *  inicializarGenes(int)
+ *  calcularLongitud(double, int, int)
+ *  calcularLongitud(double, double, double, double, double, int, int)
+ *  calcularFenotipo(int, int, int)
+ *  setGen(int, boolean)
+ *  mutaGen(int)
+ *  toString()
+ *  mostrar()
  */
 public class CromosomaF1 extends Cromosoma 
 {
+	/* Valores definidos en el problema */
 	private static final int xMax = 32;
 	private static final int xMin = 0;
-	private static int longitud = -1;
 	
-	public int getLongitud(){
-		return longitud;
-	}
+	public static int longitud = -1;
 	
 	public CromosomaF1(double tolerancia) 
 	{	
@@ -39,7 +44,13 @@ public class CromosomaF1 extends Cromosoma
 		this.aptitud = evaluarCromosoma();
 	}
 	
-
+	public CromosomaF1(boolean[] genes, double fenotipo, double aptitud, double puntAcc)
+	{
+		super(genes, fenotipo, aptitud, puntAcc);
+	}
+	
+	/* Implementacion de metodos abstractos */
+	
 	@Override
 	protected double evaluarCromosoma() 
 	{
@@ -50,23 +61,10 @@ public class CromosomaF1 extends Cromosoma
 		return 20+valor;
 	}	
 
-	protected CromosomaF1 clone()
+	@Override
+	protected Cromosoma clone() 
 	{
 		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());
-	}
-	
-	@Override
-	public String toString()
-	{
-		String s = "";
-		for (int i = 0; i < this.longitud; i++) {
-			String v = "";
-			if (this.genes[i]) v = "1";
-			else v = "0";
-			
-			s+= "| " + v + " |";
-		}
-		return s;
 	}
 	
 }

@@ -1,33 +1,48 @@
 package algoritmoGenetico;
 
-public class CromosomaF2 extends Cromosoma {
-
-	private double fenotipo2;	
-
+/**
+ * Atributos heredados
+ *  ---------------------	
+ *  private boolean[] genes;
+ *  private double fenotipo;
+ *  private double aptitud;
+ *  private double puntuacion;
+ *  private double puntuacionAcumulada;
+ *  protected int longitud;
+ * 
+ * Metodos abstractos
+ *  ----------------------------------
+ *  evaluarCromosoma()
+ *  clone() 
+ * 
+ * Metodos implementados 
+ *  ----------------------------------
+ *  inicializarGenes(int)
+ *  calcularLongitud(double, int, int)
+ *  calcularLongitud(double, double, double, double, double, int, int)
+ *  calcularFenotipo(int, int, int)
+ *  setGen(int, boolean)
+ *  mutaGen(int)
+ *  toString()
+ *  mostrar()
+ */
+public class CromosomaF2 extends Cromosoma
+{
+	/* Valores definidos en el problema */
 	private static final double xMax = 12.1;
 	private static final double xMin = -3;
 	private static final double yMax = 5.8;
 	private static final double yMin = 4.1;
-	protected static int longitud = -1;
-	private static int longitudx = -1;
-	private static int longitudy = -1;
 	
-	public static int getLongitud(){
-		return longitud;
-	}
+	public static int longitud = -1;
 	
-	public static int getLongitudx(){
-		return longitudx;
-	}
-	
-	public static int getLongitudy(){
-		return longitudy;
-	}
+	private double fenotipo2;	
+
 	
 	public CromosomaF2(double tolerancia) 
 	{	
-		if (longitudx == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin, longitudx, longitudy);
+		if (longitud == -1) {
+			longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
 		}
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
