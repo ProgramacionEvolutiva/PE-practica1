@@ -24,16 +24,16 @@ public abstract class Cromosoma {
 	}
 	
 	/* Getters & Setters */
-	protected boolean[] getGenes() {return genes;}
-	protected void setGenes(boolean[] genes) {this.genes = genes;}
-	protected double getFenotipo() {return fenotipo;}
-	protected void setFenotipo(double fenotipo) {this.fenotipo = fenotipo;}
-	protected double getAptitud() {return aptitud;}
-	protected void setAptitud(double aptitud) {this.aptitud = aptitud;}
-	protected double getPuntuacionAcumulada() {return puntuacionAcumulada;}
-	protected void setPuntuacionAcumulada(double puntuacionAcumulada) {this.puntuacionAcumulada = puntuacionAcumulada;}	
-	protected int getLongitud() {return longitud;}
-	protected void setLongitud(int longitud) {this.longitud = longitud;}
+	public boolean[] getGenes() {return genes;}
+	public void setGenes(boolean[] genes) {this.genes = genes;}
+	public double getFenotipo() {return fenotipo;}
+	public void setFenotipo(double fenotipo) {this.fenotipo = fenotipo;}
+	public double getAptitud() {return aptitud;}
+	public void setAptitud(double aptitud) {this.aptitud = aptitud;}
+	public double getPuntuacionAcumulada() {return puntuacionAcumulada;}
+	public void setPuntuacionAcumulada(double puntuacionAcumulada) {this.puntuacionAcumulada = puntuacionAcumulada;}	
+	public int getLongitud() {return longitud;}
+	public void setLongitud(int longitud) {this.longitud = longitud;}
 	
 	/* Metodos declarados */
 	protected abstract double evaluarCromosoma();
@@ -76,7 +76,7 @@ public abstract class Cromosoma {
 	 * @param valor minimo del intervalo
 	 * @return longitud de los cromosomas
 	 */
-	protected int calcularLongitud(double tolerancia, int xMax, int xMin)
+	protected int calcularLongitud(double tolerancia, double xMax, double xMin)
 	{
 		double aux = 1 + ( (xMax - xMin) / tolerancia);	
 		aux = (Math.log(aux) / Math.log(2));
@@ -116,7 +116,7 @@ public abstract class Cromosoma {
 	 * @param valor minimo del intervalo
 	 * @return fenotipo del cromosoma (valor real)
 	 */
-	protected double calcularFenotipo(int longitud, int xMax, int xMin)
+	protected double calcularFenotipo(int longitud, double xMax, double xMin)
 	{
 		// FIXME
 		// No es necesario pasar como argumento la longitud ya que podemos acceder a ella con

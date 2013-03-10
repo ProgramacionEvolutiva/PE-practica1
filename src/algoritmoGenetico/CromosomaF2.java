@@ -42,11 +42,11 @@ public class CromosomaF2 extends Cromosoma
 	public CromosomaF2(double tolerancia) 
 	{	
 		if (longitud == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
+			// TODO: Revisar esta funcion
+			//longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
 		}
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
-		this.fenotipo2 = calcularFenotipo(longitud,yMax, yMin);
 		this.aptitud = evaluarCromosoma();
 	}
 

@@ -29,8 +29,8 @@ package algoritmoGenetico;
 public class CromosomaF1 extends Cromosoma 
 {
 	/* Valores definidos en el problema */
-	private static final int xMax = 32;
-	private static final int xMin = 0;
+	private static final double xMax = 32.0;
+	private static final double xMin = 0.0;
 	
 	public static int longitud = -1;
 	
