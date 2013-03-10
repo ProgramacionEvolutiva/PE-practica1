@@ -8,8 +8,10 @@ package algoritmoGenetico;
  * private double aptitud;
  * private double puntuacion;
  * private double puntuacionAcumulada;
+ * protected int longitud;
  * 
- * ----------------------------------
+ *  Metodos heredados 
+ *  ----------------------------------
  * 
  *  protected boolean[] inicializarGenes(int longitud)
  *	protected int calcularLongitud(double tolerancia, int xMax, int xMin)
@@ -23,7 +25,7 @@ public class CromosomaF1 extends Cromosoma
 	private static final int xMin = 0;
 	private static int longitud = -1;
 	
-	public static int getLongitud(){
+	public int getLongitud(){
 		return longitud;
 	}
 	
@@ -37,11 +39,6 @@ public class CromosomaF1 extends Cromosoma
 		this.aptitud = evaluarCromosoma();
 	}
 	
-
-	public CromosomaF1(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
-	{
-		super(genes,fenotipo,aptitud,puntuacionAcumulada);
-	}
 
 	@Override
 	protected double evaluarCromosoma() 
@@ -57,4 +54,19 @@ public class CromosomaF1 extends Cromosoma
 	{
 		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());
 	}
+	
+	@Override
+	public String toString()
+	{
+		String s = "";
+		for (int i = 0; i < this.longitud; i++) {
+			String v = "";
+			if (this.genes[i]) v = "1";
+			else v = "0";
+			
+			s+= "| " + v + " |";
+		}
+		return s;
+	}
+	
 }

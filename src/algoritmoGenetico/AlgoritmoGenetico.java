@@ -60,19 +60,19 @@ public class AlgoritmoGenetico {
 	 * @param parametros
 	 * @return Poblacion seleccionada
 	 */
-	private Cromosoma[] seleccion(Cromosoma[] pob, Parametros parametros) {
+	private Cromosoma[] seleccion(Cromosoma[] pob, Parametros parametros) 
+	{
 		Cromosoma[] poblacionSeleccionada = new Cromosoma[parametros.getTamPoblacion()];
 		int posicionSuperviviente;
 		
 		double random;
 		for (int i = 0; i < parametros.getTamPoblacion(); i++) {
 			random = Math.random();
-			posicionSuperviviente = 0;			
-			while ((posicionSuperviviente < (parametros.getTamPoblacion())) &&
-					(random > pob[posicionSuperviviente].getPuntuacionAcumulada())					) {				
+			posicionSuperviviente = 0;
+			while ( (random > pob[posicionSuperviviente].getPuntuacionAcumulada()) &&
+					(posicionSuperviviente < parametros.getTamPoblacion()) ) {
 				posicionSuperviviente++;
 			}
-			
 			
 			poblacionSeleccionada[i] = pob[posicionSuperviviente];
 		}
@@ -90,7 +90,8 @@ public class AlgoritmoGenetico {
 	 * @param parametros
 	 * @return nueva poblacion
 	 */
-	private Cromosoma[] reproduccion(Cromosoma[] pob, Parametros parametros) {
+	private Cromosoma[] reproduccion(Cromosoma[] pob, Parametros parametros) 
+	{
 		// 1. Seleccionados para reproducir
 		int[] selCruce= new int[parametros.getTamPoblacion()];
 		
@@ -149,42 +150,6 @@ public class AlgoritmoGenetico {
 		}
 		return pob;
 	}
-	
-	/**
-	 * El operador de cruce toma dos padres y genera dos cadenas hijas.
-	 * La función calcula la aptitud de los nuevos individuos.
- 	 *
-	 * @param Cromosoma padre
-	 * @param Cromosoma madre
-	 * @param Cromosoma hijo1 (hijo)
-	 * @param Cromosoma hijo2 (hija)
-	 * @param puntoCruce
-	 */
-	private void cruce(Cromosoma padre, Cromosoma madre, Cromosoma hijo, Cromosoma hija, int puntoCruce) 
-	{
-		// primera parte del intercambio: 
-		// copiar progenitor desde el principio hasta el punto de cruce
-		
-		for (int i = 0; i < puntoCruce; i++){
-			hijo.setGen(i, padre.getGenes()[i]);
-			hija.setGen(i, madre.getGenes()[i]);
-		}
-		
-		// segunda parte del intercambio:
-		// copiar desde el punto de cruce hasta el final del otro progenitor
-		
-		for (int i = puntoCruce; i < longitudCromosoma; i++){
-			hija.setGen(i, padre.getGenes()[i]);
-			hijo.setGen(i, madre.getGenes()[i]);
-		}
-		
-		// evaluar los nuevos individuos
-		
-		hijo.evaluarCromosoma();
-		hija.evaluarCromosoma();
-		
-		
-	}
 
 	/**
 	 * 
@@ -233,13 +198,53 @@ public class AlgoritmoGenetico {
 		}		
 		return pob;
 	}
+
+	/**
+	 * El operador de cruce toma dos padres y genera dos cadenas hijas.
+	 * La función calcula la aptitud de los nuevos individuos.
+ 	 *
+	 * @param Cromosoma padre
+	 * @param Cromosoma madre
+	 * @param Cromosoma hijo1 (hijo)
+	 * @param Cromosoma hijo2 (hija)
+	 * @param puntoCruce
+	 */
+	private void cruce(Cromosoma padre, Cromosoma madre, Cromosoma hijo, Cromosoma hija, int puntoCruce) 
+	{
+		hijo.inicializarGenes(padre.getLongitud());
+		hija.inicializarGenes(madre.getLongitud());
+		
+		// primera parte del intercambio: 
+		// copiar progenitor desde el principio hasta el punto de cruce
+		
+		for (int i = 0; i < puntoCruce; i++){
+			hijo.setGen(i, padre.getGenes()[i]);
+			hija.setGen(i, madre.getGenes()[i]);
+		}
+		
+		// segunda parte del intercambio:
+		// copiar desde el punto de cruce hasta el final del otro progenitor
+		
+		for (int i = puntoCruce; i <= padre.getLongitud(); i++){
+			hija.setGen(i, padre.getGenes()[i]);
+			hijo.setGen(i, madre.getGenes()[i]);
+		}
+		
+		// evaluar los nuevos individuos
+		
+		hijo.evaluarCromosoma();
+		hija.evaluarCromosoma();
+		
+		
+	}
 	
 	/**
 	 * 
 	 * @param poblacion a evaluar
 	 * @return la posicion del mejor individuo
 	 */
-	private int evaluarPoblacion(Cromosoma[] poblacion){
+	private int evaluarPoblacion(Cromosoma[] poblacion)
+	{
 		double puntuacionAcumulada = 0;
 		double aptitudMejor = 0;
 		double sumaAptitudes = 0;

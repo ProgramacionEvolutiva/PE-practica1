@@ -14,16 +14,6 @@ import javax.swing.JTextField;
 
 import algoritmoGenetico.Cromosoma;
 import controlador.Controlador;
-import es.ucm.fdi.pe.ConfigPanel.ChoiceOption;
-import es.ucm.fdi.pe.ConfigPanel.DoubleOption;
-import es.ucm.fdi.pe.ConfigPanel.InnerOption;
-import es.ucm.fdi.pe.ConfigPanel.IntegerOption;
-import es.ucm.fdi.pe.ConfigPanel.StrategyOption;
-import es.ucm.fdi.pe.Demo.Circulo;
-import es.ucm.fdi.pe.Demo.Figura;
-import es.ucm.fdi.pe.Demo.Forma;
-import es.ucm.fdi.pe.Demo.Punto;
-import es.ucm.fdi.pe.Demo.Rectangulo;
 import interfaz.ConfigPanel;
 
 /**
@@ -93,7 +83,7 @@ public class InterfazGrafica extends JFrame
 		return panelPrincipal;
 	}
 	
-	public ConfigPanel<Parametros> creaPanelConfiguracion() 
+	public ConfigPanel<Parametros> crearFormulario() 
 	{
 		ConfigPanel<Parametros> config = new ConfigPanel<Parametros>();
 		
