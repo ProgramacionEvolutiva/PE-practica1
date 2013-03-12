@@ -6,20 +6,28 @@ import algoritmoGenetico.Cromosoma;
 
 public class Controlador
 {
-	private static InterfazGrafica interfaz;
-	private static AlgoritmoGenetico genetico;
+	private InterfazGrafica interfaz;
+	private AlgoritmoGenetico genetico;
 	
-	public static void main (String[] args)
+	public Controlador(){}
+	
+	public void inicializar()
 	{
-		Controlador controlador = new Controlador();
-		interfaz = new InterfazGrafica(controlador);
-		genetico = new AlgoritmoGenetico();
-		
+		this.interfaz = new InterfazGrafica(this);
+		this.genetico = new AlgoritmoGenetico();
 	}
-
+	
 	public void lanzaGenetico()
 	{
 		Cromosoma cromosomaMejor = genetico.algoritmo_genetico(interfaz.getParametros());		
 		interfaz.mostrar(cromosomaMejor);
 	}
+	
+	/* Main */
+	public static void main (String[] args)
+	{
+		Controlador controlador = new Controlador();
+		controlador.inicializar();
+	}
+	
 }
