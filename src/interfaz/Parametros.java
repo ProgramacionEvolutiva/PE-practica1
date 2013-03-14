@@ -99,14 +99,12 @@ public class Parametros {
 	/* Funciones auxiliares */
 	private boolean estaContenido(int v)
 	{
-		boolean encontrado = false;
-		int i = 0;
-		while(i < valoresSeleccion.length && !encontrado) {
+		for (int i = 0; i < this.valoresSeleccion.length; i++) {
 			if (v == valoresSeleccion[i]){
-				encontrado = true;
+				return true;
 			}
 		}
-		return encontrado;
+		return false;
 	}
 	
 }

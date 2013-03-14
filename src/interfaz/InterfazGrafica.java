@@ -16,6 +16,10 @@ import javax.swing.JTextField;
 import org.math.plot.Plot2DPanel;
 
 import controlador.Controlador;
+import javax.swing.JList;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 
 /**
@@ -36,36 +40,44 @@ public class InterfazGrafica extends JFrame
 	
 	/* Componentes graficos */
 	private JPanel panelPrincipal; 
-		// Izquierda
-		private JTabbedPane panelSelector;	
-			private JPanel panelFormulario;
-				private JPanel panelPoblacion;
-					private JLabel labelPoblacion;
-					private JTextField formPoblacion;
-				private JPanel panelGeneraciones;
-					private JLabel labelGeneraciones;
-					private JTextField formGeneraciones;
-				private JPanel panelCruce;
-					private JLabel labelCruce;
-					private JTextField formCruce;
-				private JPanel panelMutacion;
-					private JLabel labelMutacion;
-					private JTextField formMutacion;
-				private JPanel panelTolerancia;
-					private JLabel labelTolerancia;
-					private JTextField formTolerancia;
-				private JPanel panelFuncion;
-					private JLabel labelFuncion;
-					private JComboBox formFuncion;
-				private JPanel panelSeleccion;
-					private JLabel labelSeleccion;
-					private JComboBox formSeleccion;
-				private JPanel panelCargar;
-					private JButton botonCargar;
-					private JButton botonLimpiar;
-			private JPanel panelInfoCromosomas;
-		// Derecha	
-		private Plot2DPanel panelResultados; 
+	
+	// Izquierda
+	private JTabbedPane panelSelector;	
+		private JPanel panelFormulario;
+			private JPanel panelPoblacion;
+				private JLabel labelPoblacion;
+				private JTextField formPoblacion;
+			private JPanel panelGeneraciones;
+				private JLabel labelGeneraciones;
+				private JTextField formGeneraciones;
+			private JPanel panelCruce;
+				private JLabel labelCruce;
+				private JTextField formCruce;
+			private JPanel panelMutacion;
+				private JLabel labelMutacion;
+				private JTextField formMutacion;
+			private JPanel panelTolerancia;
+				private JLabel labelTolerancia;
+				private JTextField formTolerancia;
+			private JPanel panelFuncion;
+				private JLabel labelFuncion;
+				private JComboBox formFuncion;
+			private JPanel panelSeleccion;
+				private JLabel labelSeleccion;
+				private JComboBox formSeleccion;
+			private JPanel panelCargar;
+				private JButton botonCargar;
+				private JButton botonLimpiar;
+				
+		private JPanel panelInfoCromosomas;
+			private JPanel panelLista;
+				private JList list;
+	// Derecha	
+	private Plot2DPanel panelResultados; 
+	private JPanel panelDetalles;
+	private JTextArea textArea;
+		
+		
 			
 	public InterfazGrafica(Controlador c) 
 	{
@@ -79,6 +91,7 @@ public class InterfazGrafica extends JFrame
 	public JPanel obtenerPanelPrincipal()
 	{
 		panelPrincipal = new JPanel();
+		
 		// 1) panel izquierdo: tabbed pane
 		panelSelector = new JTabbedPane(JTabbedPane.TOP);
 		obtenerFormulario();
@@ -204,6 +217,23 @@ public class InterfazGrafica extends JFrame
 	{
 		panelInfoCromosomas = new JPanel();
 		panelSelector.addTab("Detalles", null, panelInfoCromosomas, null);
+		panelInfoCromosomas.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		panelLista = new JPanel();
+		panelLista.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panelInfoCromosomas.add(panelLista);
+		panelLista.setLayout(new GridLayout(0, 1, 0, 0));
+		
+		list = new JList();
+		panelLista.add(list);
+		
+		panelDetalles = new JPanel();
+		panelDetalles.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
+		panelInfoCromosomas.add(panelDetalles);
+		panelDetalles.setLayout(new GridLayout(1, 0, 0, 0));
+		
+		textArea = new JTextArea();
+		panelDetalles.add(textArea);
 	}
 	
 	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores)
