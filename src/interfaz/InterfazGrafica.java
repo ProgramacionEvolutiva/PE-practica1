@@ -1,6 +1,5 @@
 package interfaz;
 
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import algoritmoGenetico.Cromosoma;
+import org.math.plot.Plot2DPanel;
+
 import controlador.Controlador;
+
 
 /**
  * Interfaz grafica.
@@ -28,7 +29,7 @@ public class InterfazGrafica extends JFrame
 	private Parametros parametros;
 	
 	/* Definicion de constantes */
-	private static final int FRAME_WEIGHT = 600;
+	private static final int FRAME_WEIGHT = 800;
 	private static final int FRAME_HEIGHT = 480;
 	
 	/* Componentes graficos */
@@ -55,8 +56,8 @@ public class InterfazGrafica extends JFrame
 			private JPanel panelCargar;
 				private JButton botonCargar;		
 		
-		private JPanel panelResultados; 
-			private JPanel panelEjemplo1;
+		private Plot2DPanel panelResultados; 
+			// grafica
 	
 	public InterfazGrafica(Controlador c) 
 	{
@@ -72,9 +73,10 @@ public class InterfazGrafica extends JFrame
 		panelPrincipal = new JPanel();
 		
 		// 1) Panel izquierdo: formulario
-		panelFormulario = obtenerFormulario();
+		panelFormulario = new JPanel();
+		obtenerFormulario();
 		// 2) Panel derecho: resultados
-		panelResultados = obtenerResultados();
+		panelResultados = new Plot2DPanel();
 		// 3) insertar los paneles
 		panelPrincipal.setLayout(new GridLayout(0, 2, 0, 0));	
 		panelPrincipal.add(panelFormulario);
@@ -88,22 +90,21 @@ public class InterfazGrafica extends JFrame
 	 *  
 	 * @return panel
 	 */
-	private JPanel obtenerFormulario()
+	private void obtenerFormulario()
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(7, 1, 0, 0));
+		panelFormulario.setLayout(new GridLayout(7, 1, 0, 0));
 		
 		panelPoblacion = new JPanel();
-		panelPoblacion.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelPoblacion);
+		panelFormulario.add(panelPoblacion);
+			panelPoblacion.setLayout(new GridLayout(1,0,0,0)); 
 			labelPoblacion = new JLabel("Poblacion: ");
-			panelPoblacion.add(labelPoblacion);
+			panelPoblacion.add(labelPoblacion, "1, 1, fill, fill");
 			formPoblacion = new JTextField("100");
-			panelPoblacion.add(formPoblacion);
+			panelPoblacion.add(formPoblacion, "3, 1, fill, fill");
 		
 		panelGeneraciones = new JPanel();
 		panelGeneraciones.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelGeneraciones);
+		panelFormulario.add(panelGeneraciones);
 			labelGeneraciones = new JLabel("Generaciones: ");
 			panelGeneraciones.add(labelGeneraciones);
 			formGeneraciones = new JTextField("50");
@@ -111,7 +112,7 @@ public class InterfazGrafica extends JFrame
 
 		panelCruce = new JPanel();
 		panelCruce.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelCruce);
+		panelFormulario.add(panelCruce);
 			labelCruce = new JLabel("Probabilidad de Cruce: ");
 			panelCruce.add(labelCruce);
 			formCruce = new JTextField("0.6");
@@ -119,7 +120,7 @@ public class InterfazGrafica extends JFrame
 			
 		panelMutacion = new JPanel();
 		panelMutacion.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelMutacion);
+		panelFormulario.add(panelMutacion);
 			labelMutacion = new JLabel("Probabilidad de Mutacion: ");
 			panelMutacion.add(labelMutacion);
 			formMutacion = new JTextField("0.01");
@@ -127,7 +128,7 @@ public class InterfazGrafica extends JFrame
 			
 		panelTolerancia = new JPanel();
 		panelTolerancia.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelTolerancia);
+		panelFormulario.add(panelTolerancia);
 			labelTolerancia = new JLabel("Tolerancia: ");
 			panelTolerancia.add(labelTolerancia);
 			formTolerancia = new JTextField("0.01");
@@ -135,7 +136,7 @@ public class InterfazGrafica extends JFrame
 		
 		panelFuncion = new JPanel();
 		panelFuncion.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelFuncion);
+		panelFormulario.add(panelFuncion);
 			labelFuncion = new JLabel("Funcion: ");
 			panelFuncion.add(labelFuncion);
 			formFuncion = new JTextField("1");
@@ -143,7 +144,7 @@ public class InterfazGrafica extends JFrame
 			
 		panelCargar = new JPanel();
 		panelCargar.setLayout(new GridLayout(1, 0, 0, 0));
-		panel.add(panelCargar);
+		panelFormulario.add(panelCargar);
 			botonCargar = new JButton("OK");
 			botonCargar.addActionListener(new ActionListener() {
 				@Override
@@ -153,27 +154,34 @@ public class InterfazGrafica extends JFrame
 				}
 			});
 			panelCargar.add(botonCargar);
-		
-		return panel;
 	}
-
-	private JPanel obtenerResultados()
+	
+	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores)
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(7, 0, 0, 0));
+		panelResultados.removeAllPlots();
 		
-		panelEjemplo1 = new JPanel();
-		panelEjemplo1.setLayout(new BorderLayout());
-		panel.add(panelEjemplo1);
-			// elementos de panelEjemplo1
-		
-		return panel;
+		// definir los datos
+		double[] x = new double[parametros.getNumGeneraciones()];
+		for(int i=0;i<parametros.getNumGeneraciones();i++){
+			x[i]=i;
+		}
+ 
+		// define the legend position
+		panelResultados.addLegend("SOUTH");
+		// add a line plot to the PlotPanel
+		panelResultados.addLinePlot("Cromosoma mejor de cada generaci—n", x, aptitudesMejores);
+		panelResultados.addLinePlot("Cromosoma mejor encontrado", x, gokusMejores);
 	}
 	
 	private void recogerParametros()
 	{
+		// TODO => Validar campos
 		this.parametros.setTamPoblacion(Integer.parseInt(formPoblacion.getText()));
-		// TODO: recoger todos los parametros
+		this.parametros.setNumGeneraciones(Integer.parseInt(formGeneraciones.getText()));
+		this.parametros.setProbCruce(Double.parseDouble(formCruce.getText()));
+		this.parametros.setProbMutacion(Double.parseDouble(formMutacion.getText()));
+		this.parametros.setTolerancia(Double.parseDouble(formTolerancia.getText()));
+		this.parametros.setFuncion(Integer.parseInt(formFuncion.getText()));
 	}
 	
 	private void propiedadesBasicas()
@@ -186,13 +194,10 @@ public class InterfazGrafica extends JFrame
 	
 	public Parametros getParametros(){ return parametros; }
 	
-	/**
-	 * 
-	 * @param cromosoma a imprimir
-	 */
-	public void mostrar(Cromosoma cromosoma){
-		// TODO: mostrar por ventana y no por consola
-		System.out.println("Solucion => " + cromosoma.toString() + " Fenotipo =>" + cromosoma.getFenotipo() +
-				" Aptitud =>" + cromosoma.getAptitud());
+	public void mostrar(double[] aptitudesMejores, double[] gokusMejores)
+	{
+		
+		obtenerResultados(aptitudesMejores,gokusMejores);
+		
 	}
 }

@@ -104,7 +104,8 @@ public abstract class Cromosoma {
 		double longy = 1 + ( (yMax - yMin) / tolerancia);	
 		longy = (Math.log(longy) / Math.log(2));
 		longitudy = (int) Math.ceil(longy);
-		return longitudx + longitudy;
+		int longitud = longitudx + longitudy;
+		return longitud;
 	}
 	
 	/**
@@ -121,7 +122,14 @@ public abstract class Cromosoma {
 		// FIXME
 		// No es necesario pasar como argumento la longitud ya que podemos acceder a ella con
 		// <this.longitud>
-		return (xMin + (xMax - xMin) * Integer.parseInt(this.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
+		String s = this.toString();
+		int a = Integer.parseInt(s, 2);
+		double b = xMin + (xMax - xMin);
+		b = b * a;
+		double c = (Math.pow(2,longitud) - 1);
+		double resultado = b / c;
+		return resultado;
+		// return (xMin + (xMax - xMin) * Integer.parseInt(this.toString(), 2) ) / ( (Math.pow(2,longitud) - 1) );
 	}	
 
 	/**
@@ -157,12 +165,6 @@ public abstract class Cromosoma {
 			else s += "0";
 		}
 		return s ;
-	}
-	
-	public void mostrar(){
-		// TODO
-		System.out.println("Solucion => " + toString() + " Fenotipo =>" + getFenotipo() +
-				" Aptitud =>" + getAptitud());
 	}
 	
 }

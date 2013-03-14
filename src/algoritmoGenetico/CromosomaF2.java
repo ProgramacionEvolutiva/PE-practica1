@@ -34,6 +34,8 @@ public class CromosomaF2 extends Cromosoma
 	private static final double yMax = 5.8;
 	private static final double yMin = 4.1;
 	
+	public static int longitudX = -1;
+	public static int longitudY = -1;
 	public static int longitud = -1;
 	
 	private double fenotipo2;	
@@ -42,8 +44,7 @@ public class CromosomaF2 extends Cromosoma
 	public CromosomaF2(double tolerancia) 
 	{	
 		if (longitud == -1) {
-			// TODO: Revisar esta funcion
-			//longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
+			longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin, longitudX, longitudY);
 		}
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);

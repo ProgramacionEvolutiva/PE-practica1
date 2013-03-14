@@ -9,18 +9,25 @@ import interfaz.Parametros;
 public class AlgoritmoGenetico {
 	private int longitudCromosoma;
 
+	private Cromosoma[] gokus;
+	private Cromosoma[] mejoresCromosomas;
+	
 	/**
-	 * Implementacion del algoritmo genetico
-	 * 
+	 * Implementacion del algoritmo genetico.
+	 * Busca: 
+	 *  - el mejor cromosoma obtenido tras todas las genraciones (Goku)
+	 *  - la lista de los mejores cromosomas en cada generacion (mejoresCromosomas)
+	 *  
 	 * @param parametros del problema
-	 * @return el mejor cromosoma encontrado
 	 */
-	public Cromosoma algoritmo_genetico(Parametros parametros) {
+	public void algoritmo_genetico(Parametros parametros) {
 		// Obtenemos la poblacion inicial 
 		Cromosoma[] pob = poblacion_inicial(parametros); 
 		int pos_mejor = evaluarPoblacion(pob);	
 
-		//mejor cromosoma
+		// mejor cromosoma
+		mejoresCromosomas = new Cromosoma[parametros.getNumGeneraciones()];
+		gokus = new Cromosoma[parametros.getNumGeneraciones()];
 		Cromosoma mejor;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
@@ -31,7 +38,7 @@ public class AlgoritmoGenetico {
 				mejor= new CromosomaF1(parametros.getTolerancia());
 				break;
 			case 2:
-				this.longitudCromosoma = CromosomaF2.longitud;
+				this.longitudCromosoma = CromosomaF2.longitudX + CromosomaF2.longitudY;
 				mejor= new CromosomaF2(parametros.getTolerancia());
 				break;
 			case 3:
@@ -64,13 +71,15 @@ public class AlgoritmoGenetico {
 			
 			// 4) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
-			if (pob[pos_mejor].getAptitud()>mejor.getAptitud()){
+			if (pob[pos_mejor].getAptitud() > mejor.getAptitud()){
 				mejor=pob[pos_mejor].clone();
 			}
-			// mejor.mostrar();
+			System.out.println(mejor.fenotipo);
+			
+			// 5) guardar los resultados
+			mejoresCromosomas[i]=pob[pos_mejor];
+			gokus[i]=mejor.clone();
 		}
-		
-		return mejor;
 	}
 
 	/** 
@@ -133,6 +142,29 @@ public class AlgoritmoGenetico {
 			poblacionSeleccionada[i] = pob[posicionSuperviviente];
 		}
 		
+		return poblacionSeleccionada;
+	}
+	
+	/**
+	 * 
+	 * @param pob
+	 * @param parametros
+	 * @return
+	 */
+	private Cromosoma[] seleccionTorneo(Cromosoma[] pob, Parametros parametros)
+	{
+		Cromosoma[] poblacionSeleccionada=new Cromosoma[parametros.getTamPoblacion()];
+		int tamTorneo=3;
+		Cromosoma mejor=null;
+		int random;
+		for(int i=0; i<parametros.getTamPoblacion();i++) {
+			for(int j=0; j<tamTorneo; j++){
+				random=aleatorioEntre(0,parametros.getTamPoblacion());
+				if (mejor!=null && (pob[random].getAptitud() > mejor.getAptitud()))
+					mejor = pob[random];
+			}
+			poblacionSeleccionada[i]=mejor.clone();
+		}
 		return poblacionSeleccionada;
 	}
 
@@ -296,5 +328,8 @@ public class AlgoritmoGenetico {
 	private int aleatorioEntre(int a, int b){
 		return a + (int)(Math.random() * ((b - a) + 1));		
 	}
+	
+	public Cromosoma[] getGokus(){ return this.gokus; }
+	public Cromosoma[] getMejoresCromosomas() {return this.mejoresCromosomas; }
 	
 }

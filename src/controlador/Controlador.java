@@ -19,9 +19,23 @@ public class Controlador
 	
 	public void lanzaGenetico()
 	{
-		Cromosoma cromosomaMejor = genetico.algoritmo_genetico(interfaz.getParametros());		
-		interfaz.mostrar(cromosomaMejor);
+		genetico.algoritmo_genetico(interfaz.getParametros());
+		
+		Cromosoma[] mejores = genetico.getMejoresCromosomas();
+		double[] aptitudesMejores = new double[interfaz.getParametros().getNumGeneraciones()];
+		for(int i = 0; i < interfaz.getParametros().getNumGeneraciones(); i++) {
+			aptitudesMejores[i] = mejores[i].getAptitud();
+		}
+		
+		Cromosoma[] gokus = genetico.getGokus();
+		double[] aptitudesGokus = new double[interfaz.getParametros().getNumGeneraciones()];
+		for(int i = 0; i < interfaz.getParametros().getNumGeneraciones(); i++) {
+			aptitudesGokus[i] = gokus[i].getAptitud();
+		}
+		
+		interfaz.mostrar(aptitudesMejores,aptitudesGokus);
 	}
+	
 	
 	/* Main */
 	public static void main (String[] args)
