@@ -12,17 +12,22 @@ package interfaz;
  *  | double | mutacion 					| 0.05 					|
  *  | double | tolerancia					| 0.01 					|
  *  | int	 | funcion						| 1 					|
+ *  | int    | seleccion					| 1 					|
  * Nota: llamar a la contructora vacia para asignar los valores por defecto 
  * 	
  */
 public class Parametros {
+	/* Algoritmos de seleccion disponibles */
+	private int[] valoresSeleccion = {0,1};
+	
 	/* Valores por defecto */
-	private static int TAM_POBLACION_DEFECTO = 100;
-	private static int NUM_GENERACIONES_DEFECTO = 50;
-	private static double PROB_CRUCE_DEFECTO = 0.6;
-	private static double PROB_MUTACION_DEFECTO = 0.05;
-	private static double TOLERANCIA_DEFECTO = 0.01;
-	private static int FUNCION_DEFECTO = 1;
+	public static final int TAM_POBLACION_DEFECTO = 100;
+	public static final int NUM_GENERACIONES_DEFECTO = 50;
+	public static final double PROB_CRUCE_DEFECTO = 0.6;
+	public static final double PROB_MUTACION_DEFECTO = 0.05;
+	public static final double TOLERANCIA_DEFECTO = 0.01;
+	public static final int FUNCION_DEFECTO = 1;
+	public static final int SELECCION_DEFECTO = 1;
 	
 	/* Atributos */
 	private int tamPoblacion;
@@ -31,9 +36,19 @@ public class Parametros {
 	private double probMutacion;
 	private double tolerancia;
 	private int funcion;
+	private int seleccion;
 	
-	/* Constructoras */
-	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia, int funcion)
+	/**
+	 * 
+	 * @param tam
+	 * @param generaciones
+	 * @param cruce
+	 * @param mutacion
+	 * @param tolerancia
+	 * @param funcion
+	 * @param seleccion: 0 para torneo y 1 para ruleta. Cualquier otro valor se tomara un 1.
+	 */
+	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia, int funcion, int seleccion)
 	{
 		this.tamPoblacion = tam;
 		this.numGeneraciones = generaciones;
@@ -41,6 +56,11 @@ public class Parametros {
 		this.probMutacion = mutacion;
 		this.tolerancia = tolerancia;
 		this.funcion = funcion;
+		if (estaContenido(seleccion)) {
+			this.seleccion = seleccion;
+		} else {
+			this.seleccion = SELECCION_DEFECTO;
+		}
 	}
 	
 	public Parametros ()
@@ -51,6 +71,7 @@ public class Parametros {
 		this.probMutacion = PROB_MUTACION_DEFECTO;
 		this.tolerancia = TOLERANCIA_DEFECTO;
 		this.funcion = FUNCION_DEFECTO;
+		this.seleccion = SELECCION_DEFECTO;
 	}
 	
 	/* Getters & Setters */
@@ -66,5 +87,26 @@ public class Parametros {
 	public void setTolerancia(double tolerancia) { this.tolerancia = tolerancia; }
 	public int getFuncion() { return funcion; }
 	public void setFuncion(int funcion) { this.funcion = funcion; }
-
+	public int getSeleccion() {return this.seleccion; }
+	public void setSeleccion(int seleccion) {
+		if (estaContenido(seleccion)){
+			this.seleccion = seleccion;
+		} else {
+			this.seleccion = SELECCION_DEFECTO;
+		}
+	}
+	
+	/* Funciones auxiliares */
+	private boolean estaContenido(int v)
+	{
+		boolean encontrado = false;
+		int i = 0;
+		while(i < valoresSeleccion.length && !encontrado) {
+			if (v == valoresSeleccion[i]){
+				encontrado = true;
+			}
+		}
+		return encontrado;
+	}
+	
 }

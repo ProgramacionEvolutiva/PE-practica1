@@ -4,10 +4,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.math.plot.Plot2DPanel;
@@ -19,7 +22,6 @@ import controlador.Controlador;
  * Interfaz grafica.
  * 
  */
-//TODO: Eliminar del proyecto CondigPanel
 public class InterfazGrafica extends JFrame
 {
 	private static final long serialVersionUID = 1L;
@@ -34,31 +36,37 @@ public class InterfazGrafica extends JFrame
 	
 	/* Componentes graficos */
 	private JPanel panelPrincipal; 
-		private JPanel panelFormulario;
-			private JPanel panelPoblacion;
-				private JLabel labelPoblacion;
-				private JTextField formPoblacion;
-			private JPanel panelGeneraciones;
-				private JLabel labelGeneraciones;
-				private JTextField formGeneraciones;
-			private JPanel panelCruce;
-				private JLabel labelCruce;
-				private JTextField formCruce;
-			private JPanel panelMutacion;
-				private JLabel labelMutacion;
-				private JTextField formMutacion;
-			private JPanel panelTolerancia;
-				private JLabel labelTolerancia;
-				private JTextField formTolerancia;
-			private JPanel panelFuncion;
-				private JLabel labelFuncion;
-				private JTextField formFuncion;
-			private JPanel panelCargar;
-				private JButton botonCargar;		
-		
+		// Izquierda
+		private JTabbedPane panelSelector;	
+			private JPanel panelFormulario;
+				private JPanel panelPoblacion;
+					private JLabel labelPoblacion;
+					private JTextField formPoblacion;
+				private JPanel panelGeneraciones;
+					private JLabel labelGeneraciones;
+					private JTextField formGeneraciones;
+				private JPanel panelCruce;
+					private JLabel labelCruce;
+					private JTextField formCruce;
+				private JPanel panelMutacion;
+					private JLabel labelMutacion;
+					private JTextField formMutacion;
+				private JPanel panelTolerancia;
+					private JLabel labelTolerancia;
+					private JTextField formTolerancia;
+				private JPanel panelFuncion;
+					private JLabel labelFuncion;
+					private JComboBox formFuncion;
+				private JPanel panelSeleccion;
+					private JLabel labelSeleccion;
+					private JComboBox formSeleccion;
+				private JPanel panelCargar;
+					private JButton botonCargar;
+					private JButton botonLimpiar;
+			private JPanel panelInfoCromosomas;
+		// Derecha	
 		private Plot2DPanel panelResultados; 
-			// grafica
-	
+			
 	public InterfazGrafica(Controlador c) 
 	{
 		this.controlador = c;
@@ -71,15 +79,17 @@ public class InterfazGrafica extends JFrame
 	public JPanel obtenerPanelPrincipal()
 	{
 		panelPrincipal = new JPanel();
-		
-		// 1) Panel izquierdo: formulario
-		panelFormulario = new JPanel();
+		// 1) panel izquierdo: tabbed pane
+		panelSelector = new JTabbedPane(JTabbedPane.TOP);
 		obtenerFormulario();
+		obtenerInfoCromosomas();
+		
 		// 2) Panel derecho: resultados
 		panelResultados = new Plot2DPanel();
+		
 		// 3) insertar los paneles
 		panelPrincipal.setLayout(new GridLayout(0, 2, 0, 0));	
-		panelPrincipal.add(panelFormulario);
+		panelPrincipal.add(panelSelector);
 		panelPrincipal.add(panelResultados);
 		
 		return panelPrincipal;
@@ -92,68 +102,108 @@ public class InterfazGrafica extends JFrame
 	 */
 	private void obtenerFormulario()
 	{
-		panelFormulario.setLayout(new GridLayout(7, 1, 0, 0));
-		
-		panelPoblacion = new JPanel();
-		panelFormulario.add(panelPoblacion);
+		panelFormulario = new JPanel();
+		panelSelector.addTab("Parametros", null, panelFormulario, null);
+		panelFormulario.setLayout(new GridLayout(8, 1, 0, 0));
+				
+			panelPoblacion = new JPanel();
+			panelFormulario.add(panelPoblacion);
 			panelPoblacion.setLayout(new GridLayout(1,0,0,0)); 
-			labelPoblacion = new JLabel("Poblacion: ");
-			panelPoblacion.add(labelPoblacion, "1, 1, fill, fill");
-			formPoblacion = new JTextField("100");
-			panelPoblacion.add(formPoblacion, "3, 1, fill, fill");
-		
-		panelGeneraciones = new JPanel();
-		panelGeneraciones.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelGeneraciones);
-			labelGeneraciones = new JLabel("Generaciones: ");
-			panelGeneraciones.add(labelGeneraciones);
-			formGeneraciones = new JTextField("50");
-			panelGeneraciones.add(formGeneraciones);
-
-		panelCruce = new JPanel();
-		panelCruce.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelCruce);
-			labelCruce = new JLabel("Probabilidad de Cruce: ");
-			panelCruce.add(labelCruce);
-			formCruce = new JTextField("0.6");
-			panelCruce.add(formCruce);
+			labelPoblacion = new JLabel("  Poblacion: ");
+			panelPoblacion.add(labelPoblacion);
+			panelPoblacion.add(new JPanel()); // hueco intermedio
+			formPoblacion = new JTextField(String.valueOf(Parametros.TAM_POBLACION_DEFECTO));
+			panelPoblacion.add(formPoblacion);
 			
-		panelMutacion = new JPanel();
-		panelMutacion.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelMutacion);
-			labelMutacion = new JLabel("Probabilidad de Mutacion: ");
+			panelGeneraciones = new JPanel();
+			panelGeneraciones.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelGeneraciones);
+			labelGeneraciones = new JLabel("  Generaciones: ");
+			panelGeneraciones.add(labelGeneraciones);
+			panelGeneraciones.add(new JPanel()); // hueco intermedio
+			formGeneraciones = new JTextField(String.valueOf(Parametros.NUM_GENERACIONES_DEFECTO));
+			panelGeneraciones.add(formGeneraciones);
+			
+			panelCruce = new JPanel();
+			panelCruce.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelCruce);
+			labelCruce = new JLabel("  Prob. Cruce: ");
+			panelCruce.add(labelCruce);
+			panelCruce.add(new JPanel()); // hueco intermedio
+			formCruce = new JTextField(String.valueOf(Parametros.PROB_CRUCE_DEFECTO));
+			panelCruce.add(formCruce);
+					
+			panelMutacion = new JPanel();
+			panelMutacion.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelMutacion);
+			labelMutacion = new JLabel("  Prob. Mutacion: ");
 			panelMutacion.add(labelMutacion);
-			formMutacion = new JTextField("0.01");
+			panelMutacion.add(new JPanel()); // hueco intermedio
+			formMutacion = new JTextField(String.valueOf(Parametros.PROB_MUTACION_DEFECTO));
 			panelMutacion.add(formMutacion);
 			
-		panelTolerancia = new JPanel();
-		panelTolerancia.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelTolerancia);
-			labelTolerancia = new JLabel("Tolerancia: ");
+			panelTolerancia = new JPanel();
+			panelTolerancia.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelTolerancia);
+			labelTolerancia = new JLabel("  Tolerancia: ");
 			panelTolerancia.add(labelTolerancia);
-			formTolerancia = new JTextField("0.01");
+			panelTolerancia.add(new JPanel()); // hueco intermedio
+			formTolerancia = new JTextField(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
 			panelTolerancia.add(formTolerancia);
-		
-		panelFuncion = new JPanel();
-		panelFuncion.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelFuncion);
-			labelFuncion = new JLabel("Funcion: ");
+			
+			panelFuncion = new JPanel();
+			panelFuncion.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelFuncion);
+			labelFuncion = new JLabel("  Funcion: ");
 			panelFuncion.add(labelFuncion);
-			formFuncion = new JTextField("1");
+			panelFuncion.add(new JPanel()); // hueco intermedio
+			formFuncion = new JComboBox();
+			formFuncion.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
 			panelFuncion.add(formFuncion);
 			
-		panelCargar = new JPanel();
-		panelCargar.setLayout(new GridLayout(1, 0, 0, 0));
-		panelFormulario.add(panelCargar);
-			botonCargar = new JButton("OK");
-			botonCargar.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					recogerParametros();
-					controlador.lanzaGenetico();
-				}
-			});
+			panelSeleccion = new JPanel();
+			panelSeleccion.setLayout(new GridLayout(1, 0, 0, 0));
+			panelFormulario.add(panelSeleccion);
+			labelSeleccion = new JLabel("  Algoritmo de selecci—n: ");
+			panelSeleccion.add(labelSeleccion);
+			panelSeleccion.add(new JPanel()); // hueco intermedio
+			formSeleccion = new JComboBox();
+			formSeleccion.setModel(new DefaultComboBoxModel(new String[] {"Torneo", "Ruleta"}));
+			formSeleccion.setSelectedIndex(1);
+			panelSeleccion.add(formSeleccion);
+			
+			panelCargar = new JPanel();
+			panelCargar.setLayout(new GridLayout(2, 3, 0, 0));
+			/* fila de huecos */
+			panelCargar.add(new JPanel());
+			panelCargar.add(new JPanel());
+			panelCargar.add(new JPanel());
+			/* *** */
+			panelFormulario.add(panelCargar);
+				botonLimpiar = new JButton("Limpiar");
+				botonLimpiar.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						resetearCampos();
+					}
+				});
+			panelCargar.add(botonLimpiar);
+			panelCargar.add(new JPanel()); // hueco intermedio
+				botonCargar = new JButton("OK");
+				botonCargar.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						recogerParametros();
+						controlador.lanzaGenetico();
+					}
+				});
 			panelCargar.add(botonCargar);
+	}
+	
+	private void obtenerInfoCromosomas()
+	{
+		panelInfoCromosomas = new JPanel();
+		panelSelector.addTab("Detalles", null, panelInfoCromosomas, null);
 	}
 	
 	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores)
@@ -181,7 +231,19 @@ public class InterfazGrafica extends JFrame
 		this.parametros.setProbCruce(Double.parseDouble(formCruce.getText()));
 		this.parametros.setProbMutacion(Double.parseDouble(formMutacion.getText()));
 		this.parametros.setTolerancia(Double.parseDouble(formTolerancia.getText()));
-		this.parametros.setFuncion(Integer.parseInt(formFuncion.getText()));
+		this.parametros.setFuncion(formFuncion.getSelectedIndex() + 1);
+		this.parametros.setSeleccion(formSeleccion.getSelectedIndex());
+	}
+	
+	private void resetearCampos()
+	{
+		this.formPoblacion.setText(String.valueOf(Parametros.TAM_POBLACION_DEFECTO));
+		this.formGeneraciones.setText(String.valueOf(Parametros.NUM_GENERACIONES_DEFECTO));
+		this.formCruce.setText(String.valueOf(Parametros.PROB_CRUCE_DEFECTO));
+		this.formMutacion.setText(String.valueOf(Parametros.PROB_MUTACION_DEFECTO));
+		this.formTolerancia.setText(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
+		this.formFuncion.setSelectedIndex(0);
+		this.formSeleccion.setSelectedIndex(1);
 	}
 	
 	private void propiedadesBasicas()
