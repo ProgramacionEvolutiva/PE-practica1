@@ -60,7 +60,7 @@ public class CromosomaF3 extends Cromosoma
 		double x = fenotipo;
 		double resul=x*Math.sin(Math.sqrt(Math.abs(x)));
 		resul=Math.abs(resul);
-		return resul;
+		return -resul;
 	}
 
 }

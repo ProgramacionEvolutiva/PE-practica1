@@ -30,19 +30,29 @@ public class CromosomaF4 extends Cromosoma
 {
 	/* Valores definidos en el problema */
 	// TODO
-	private static final int xMax = 0;
+	private static final int xMax = 100;
 	private static final int xMin = 0;
 	
 	public static int longitud = -1;
 	
-	public CromosomaF4(double d) {
-		// TODO Auto-generated constructor stub
+	public CromosomaF4(double tolerancia) 
+	{	
+		if (longitud == -1) {
+			longitud = calcularLongitud(tolerancia, xMax, xMin);
+		}
+		this.genes = inicializarGenes(longitud);
+		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
+		this.aptitud = evaluarCromosoma();
+	}
+	
+	public CromosomaF4(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
+	{
+		super(genes,fenotipo,aptitud,puntuacionAcumulada);
 	}
 
 	@Override
 	protected Cromosoma clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CromosomaF4(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());	
 	}
 
 	@Override

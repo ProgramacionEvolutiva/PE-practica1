@@ -11,6 +11,7 @@ public class AlgoritmoGenetico {
 
 	private Cromosoma[] gokus;
 	private Cromosoma[] mejoresCromosomas;
+	private int[] medias;
 	
 	/**
 	 * Implementacion del algoritmo genetico.
@@ -28,6 +29,7 @@ public class AlgoritmoGenetico {
 		// mejor cromosoma
 		mejoresCromosomas = new Cromosoma[parametros.getNumGeneraciones()];
 		gokus = new Cromosoma[parametros.getNumGeneraciones()];
+		medias = new int[parametros.getNumGeneraciones()];
 		Cromosoma mejor;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
@@ -61,7 +63,11 @@ public class AlgoritmoGenetico {
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
 			// 1) seleccion
-			pob = seleccion(pob, parametros);
+			if (parametros.getSeleccion() == 0)
+				pob = seleccionTorneo(pob, parametros);
+			
+			if (parametros.getSeleccion() == 1)
+				pob = seleccionRuleta(pob, parametros);
 			
 			// 2) reproduccion
 			pob = reproduccion(pob, parametros);
@@ -79,7 +85,16 @@ public class AlgoritmoGenetico {
 			// 5) guardar los resultados
 			mejoresCromosomas[i]=pob[pos_mejor];
 			gokus[i]=mejor.clone();
+			medias[i]=calcularMedia(pob);
 		}
+	}
+
+	private int calcularMedia(Cromosoma[] pob) {
+		int media=0;
+		for (int i=0; i<pob.length;i++){
+			media+=pob[i].getAptitud();
+		}
+		return media/pob.length;
 	}
 
 	/** 
@@ -125,7 +140,7 @@ public class AlgoritmoGenetico {
 	 * @param parametros del problema
 	 * @return Poblacion seleccionada
 	 */
-	private Cromosoma[] seleccion(Cromosoma[] pob, Parametros parametros) 
+	private Cromosoma[] seleccionRuleta(Cromosoma[] pob, Parametros parametros) 
 	{
 		Cromosoma[] poblacionSeleccionada = new Cromosoma[parametros.getTamPoblacion()];
 		int posicionSuperviviente;
@@ -139,28 +154,32 @@ public class AlgoritmoGenetico {
 				posicionSuperviviente++;
 			}
 			
-			poblacionSeleccionada[i] = pob[posicionSuperviviente];
+			poblacionSeleccionada[i] = pob[posicionSuperviviente].clone();
 		}
 		
 		return poblacionSeleccionada;
 	}
 	
 	/**
+	 * La funcion de seleccion escoge un numero de supervivientes
+	 * igual al tam de la poblacion.
 	 * 
-	 * @param pob
-	 * @param parametros
-	 * @return
+	 * Metodo de seleccion => Seleccion por torneo.
+	 * 
+	 * @param poblacion
+	 * @param parametros del problema
+	 * @return Poblacion seleccionada
 	 */
 	private Cromosoma[] seleccionTorneo(Cromosoma[] pob, Parametros parametros)
 	{
-		Cromosoma[] poblacionSeleccionada=new Cromosoma[parametros.getTamPoblacion()];
+		Cromosoma[] poblacionSeleccionada = new Cromosoma[parametros.getTamPoblacion()];
 		int tamTorneo=3;
 		Cromosoma mejor=null;
 		int random;
 		for(int i=0; i<parametros.getTamPoblacion();i++) {
 			for(int j=0; j<tamTorneo; j++){
-				random=aleatorioEntre(0,parametros.getTamPoblacion());
-				if (mejor!=null && (pob[random].getAptitud() > mejor.getAptitud()))
+				random=aleatorioEntre(0,parametros.getTamPoblacion()-1);
+				if (mejor==null || (pob[random].getAptitud() > mejor.getAptitud()))
 					mejor = pob[random];
 			}
 			poblacionSeleccionada[i]=mejor.clone();
@@ -331,5 +350,6 @@ public class AlgoritmoGenetico {
 	
 	public Cromosoma[] getGokus(){ return this.gokus; }
 	public Cromosoma[] getMejoresCromosomas() {return this.mejoresCromosomas; }
+	public int[] getMedias() {return this.medias; }
 	
 }

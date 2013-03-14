@@ -29,25 +29,46 @@ package algoritmoGenetico;
 public class CromosomaF5 extends Cromosoma
 {
 	/* Valores definidos en el problema */
-	private static final int xMax = 32;
-	private static final int xMin = 0;
+	private static final int xMax = 10;
+	private static final int xMin = -10;
 	
 	public static int longitud = -1;
+	public static int longitudX = -1;
 	
-	public CromosomaF5(double d) {
-		// TODO Auto-generated constructor stub
+	private double fenotipo2;	
+	
+	public CromosomaF5(double tolerancia) {
+		if (longitud == -1) {
+			longitud = calcularLongitud(tolerancia, xMax, xMin, xMax, xMin, longitudX, longitudX);
+		}
+		this.genes = inicializarGenes(longitud);
+		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
+		this.aptitud = evaluarCromosoma();
+	}
+	
+	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
+	{
+		super(genes,fenotipo,aptitud,puntuacionAcumulada);
 	}
 
 	@Override
 	protected Cromosoma clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CromosomaF5(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());	
 	}
 
 	@Override
 	protected double evaluarCromosoma() {
-		// TODO Auto-generated method stub
-		return 0;
+		double x1 = this.getFenotipo();
+		double x2 = fenotipo2;
+		int resul1=0;
+		for (int i=1; i<=5; i++){
+			resul1+=i*Math.cos((i+1)*x1+i);
+		}
+		int resul2=0;
+		for (int i=1; i<=5; i++){
+			resul2+=i*Math.cos((i+1)*x2+i);
+		}
+		return resul1*resul2;
 	}
 
 }
