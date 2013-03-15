@@ -1,25 +1,29 @@
 package interfaz;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 
 import org.math.plot.Plot2DPanel;
 
+import algoritmoGenetico.Cromosoma;
 import controlador.Controlador;
-import javax.swing.JList;
-import javax.swing.JTextArea;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 
 /**
@@ -70,12 +74,12 @@ public class InterfazGrafica extends JFrame
 				private JButton botonLimpiar;
 				
 		private JPanel panelInfoCromosomas;
-			private JPanel panelLista;
-				private JList list;
+			private JPanel panelLista; // FIXME: JScrollPane
+				private JList listaPicos;
 	// Derecha	
 	private Plot2DPanel panelResultados; 
 	private JPanel panelDetalles;
-	private JTextArea textArea;
+	private JTextArea areaInfo;
 		
 		
 			
@@ -216,41 +220,62 @@ public class InterfazGrafica extends JFrame
 	private void obtenerInfoCromosomas()
 	{
 		panelInfoCromosomas = new JPanel();
-		panelSelector.addTab("Detalles", null, panelInfoCromosomas, null);
 		panelInfoCromosomas.setLayout(new GridLayout(2, 1, 0, 0));
 		
+		// 1) Lista
 		panelLista = new JPanel();
 		panelLista.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
-		panelInfoCromosomas.add(panelLista);
 		panelLista.setLayout(new GridLayout(0, 1, 0, 0));
+		listaPicos = new JList();
+		listaPicos.setSelectedIndex(1);
+		listaPicos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		listaPicos.setLayoutOrientation(JList.VERTICAL);
+		panelLista.add(listaPicos);
 		
-		list = new JList();
-		panelLista.add(list);
-		
+		// 2) Detalles
 		panelDetalles = new JPanel();
 		panelDetalles.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
-		panelInfoCromosomas.add(panelDetalles);
 		panelDetalles.setLayout(new GridLayout(1, 0, 0, 0));
+		areaInfo = new JTextArea();
+		panelDetalles.add(areaInfo);
 		
-		textArea = new JTextArea();
-		panelDetalles.add(textArea);
+		// 3) add
+		panelInfoCromosomas.add(panelLista);
+		panelInfoCromosomas.add(panelDetalles);
+		panelSelector.addTab("Detalles", null, panelInfoCromosomas, null);
 	}
 	
 	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores)
 	{
+		// borrar la grafica anterior
 		panelResultados.removeAllPlots();
-		
 		// definir los datos
 		double[] x = new double[parametros.getNumGeneraciones()];
 		for(int i=0;i<parametros.getNumGeneraciones();i++){
 			x[i]=i;
 		}
- 
-		// define the legend position
+		// definir la layenda de datos
 		panelResultados.addLegend("SOUTH");
-		// add a line plot to the PlotPanel
+		// dibujar la grafica
 		panelResultados.addLinePlot("Cromosoma mejor de cada generaci—n", x, aptitudesMejores);
 		panelResultados.addLinePlot("Cromosoma mejor encontrado", x, gokusMejores);
+	}
+	
+	private void obtenerTabla(ArrayList<Cromosoma> picos)
+	{
+		// recoger los datos
+		Object[] datos = new String[picos.size()];
+		int i = 0;
+		Iterator<Cromosoma> it = picos.iterator();
+		while(it.hasNext()) {
+			datos[i] = it.next().toString();
+			i++;
+		}
+		
+		// borrar la tabla anterior
+		
+		listaPicos.setListData(datos);
+		
 	}
 	
 	private void recogerParametros()
@@ -286,10 +311,10 @@ public class InterfazGrafica extends JFrame
 	
 	public Parametros getParametros(){ return parametros; }
 	
-	public void mostrar(double[] aptitudesMejores, double[] gokusMejores)
+	public void mostrar(double[] aptitudesMejores, double[] gokusMejores, ArrayList<Cromosoma> picos)
 	{
 		
 		obtenerResultados(aptitudesMejores,gokusMejores);
-		
+		obtenerTabla(picos);
 	}
 }

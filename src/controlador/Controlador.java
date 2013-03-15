@@ -1,6 +1,10 @@
 package controlador;
 
 import interfaz.InterfazGrafica;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.Cromosoma;
 
@@ -19,21 +23,28 @@ public class Controlador
 	
 	public void lanzaGenetico()
 	{
+		// Llamada al algoritmo
 		genetico.algoritmo_genetico(interfaz.getParametros());
 		
+		// Recoger: Mejores cromosomas
 		Cromosoma[] mejores = genetico.getMejoresCromosomas();
 		double[] aptitudesMejores = new double[interfaz.getParametros().getNumGeneraciones()];
 		for(int i = 0; i < interfaz.getParametros().getNumGeneraciones(); i++) {
 			aptitudesMejores[i] = mejores[i].getAptitud();
 		}
 		
+		// Recoger: Gokus
 		Cromosoma[] gokus = genetico.getGokus();
 		double[] aptitudesGokus = new double[interfaz.getParametros().getNumGeneraciones()];
 		for(int i = 0; i < interfaz.getParametros().getNumGeneraciones(); i++) {
 			aptitudesGokus[i] = gokus[i].getAptitud();
 		}
 		
-		interfaz.mostrar(aptitudesMejores,aptitudesGokus);
+		// Recoger: Picos
+		ArrayList<Cromosoma> picos = genetico.getPicos();
+		
+		// mostrar(lineaBase, lineaRoja, tablaSuperior)
+		interfaz.mostrar(aptitudesMejores, aptitudesGokus, picos);
 	}
 	
 	

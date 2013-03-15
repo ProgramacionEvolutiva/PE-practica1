@@ -2,6 +2,9 @@ package algoritmoGenetico;
 
 import interfaz.Parametros;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * Clase que implementa el algoritmo genetico principal
  * 
@@ -9,9 +12,13 @@ import interfaz.Parametros;
 public class AlgoritmoGenetico {
 	private int longitudCromosoma;
 
+	// Informacion para las graficas
 	private Cromosoma[] gokus;
 	private Cromosoma[] mejoresCromosomas;
 	private int[] medias;
+	
+	// Informacion para las tablas
+	private ArrayList<Cromosoma> picos;
 	
 	/**
 	 * Implementacion del algoritmo genetico.
@@ -26,11 +33,15 @@ public class AlgoritmoGenetico {
 		Cromosoma[] pob = poblacion_inicial(parametros); 
 		int pos_mejor = evaluarPoblacion(pob);	
 
-		// mejor cromosoma
+		// Informacion para las graficas
 		mejoresCromosomas = new Cromosoma[parametros.getNumGeneraciones()];
 		gokus = new Cromosoma[parametros.getNumGeneraciones()];
 		medias = new int[parametros.getNumGeneraciones()];
 		Cromosoma mejor;
+		
+		// Informacion para las tablas
+		picos = new ArrayList<Cromosoma>();
+		Cromosoma picoAnterior = null;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
 		int funcionSeleccionada = parametros.getFuncion();
@@ -62,31 +73,49 @@ public class AlgoritmoGenetico {
 
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
-			// 1) seleccion
+		// 1) seleccion
 			if (parametros.getSeleccion() == 0)
 				pob = seleccionTorneo(pob, parametros);
 			
 			if (parametros.getSeleccion() == 1)
 				pob = seleccionRuleta(pob, parametros);
 			
-			// 2) reproduccion
+		// 2) reproduccion
 			pob = reproduccion(pob, parametros);
 			
-			// 3) mutacion
+		// 3) mutacion
 			mutacion(pob, parametros);
 			
-			// 4) tratar la nueva solucion
+		// 4) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
 			if (pob[pos_mejor].getAptitud() > mejor.getAptitud()){
 				mejor=pob[pos_mejor].clone();
 			}
-			System.out.println(mejor.fenotipo);
 			
-			// 5) guardar los resultados
+		// 5) guardar los resultados
 			mejoresCromosomas[i]=pob[pos_mejor];
 			gokus[i]=mejor.clone();
 			medias[i]=calcularMedia(pob);
+			// primera vuelta => inicializar picoAnterior
+			if (i==0) {
+				picoAnterior = mejor.clone();
+				picos.add(mejor.clone());
+			}
+			
+			if (picoAnterior.getAptitud() < mejoresCromosomas[i].getAptitud()) {
+				picoAnterior = mejoresCromosomas[i];
+				picos.add(mejoresCromosomas[i].clone());
+			}
 		}
+		
+		// debug
+		Iterator<Cromosoma> it = picos.iterator();
+		System.out.println("\n\n\n\n");
+		while(it.hasNext()) {
+			System.out.println(it.next().getAptitud());
+		}
+		// fin
+		//System.out.println(null)
 	}
 
 	private int calcularMedia(Cromosoma[] pob) {
@@ -348,8 +377,9 @@ public class AlgoritmoGenetico {
 		return a + (int)(Math.random() * ((b - a) + 1));		
 	}
 	
+	/* Getters */
 	public Cromosoma[] getGokus(){ return this.gokus; }
 	public Cromosoma[] getMejoresCromosomas() {return this.mejoresCromosomas; }
 	public int[] getMedias() {return this.medias; }
-	
+	public ArrayList<Cromosoma> getPicos(){ return this.picos; }
 }
