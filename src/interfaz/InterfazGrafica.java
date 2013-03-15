@@ -1,16 +1,20 @@
 package interfaz;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -43,43 +47,70 @@ public class InterfazGrafica extends JFrame
 	private static final int FRAME_HEIGHT = 480;
 	
 	/* Componentes graficos */
-	private JPanel panelPrincipal; 
 	
+	// menu
+	private JMenuBar menu;
+	private JMenu menuArchivo;
+		private JMenuItem itemNuevo;
+		private JMenuItem itemSalir;
+	private JMenuItem menuAlgoritmo;
+		
+	// paneles
+	private JPanel panelPrincipal; 
 	// Izquierda
 	private JTabbedPane panelSelector;	
-		private JPanel panelFormulario;
-			private JPanel panelPoblacion;
-				private JLabel labelPoblacion;
-				private JTextField formPoblacion;
-			private JPanel panelGeneraciones;
-				private JLabel labelGeneraciones;
-				private JTextField formGeneraciones;
-			private JPanel panelCruce;
-				private JLabel labelCruce;
-				private JTextField formCruce;
-			private JPanel panelMutacion;
-				private JLabel labelMutacion;
-				private JTextField formMutacion;
-			private JPanel panelTolerancia;
-				private JLabel labelTolerancia;
-				private JTextField formTolerancia;
-			private JPanel panelFuncion;
-				private JLabel labelFuncion;
-				private JComboBox formFuncion;
-			private JPanel panelSeleccion;
-				private JLabel labelSeleccion;
-				private JComboBox formSeleccion;
-			private JPanel panelCargar;
-				private JButton botonCargar;
-				private JButton botonLimpiar;
-				
+	private JPanel panelFormulario;
+		
+		private JPanel panelPoblacion;
+			private JLabel labelPoblacion;
+			private JTextField formPoblacion;
+		private JPanel panelPoblacionInvalido;
+			private JLabel labelPoblacionInvalido;
+		
+		private JPanel panelGeneraciones;
+			private JLabel labelGeneraciones;
+			private JTextField formGeneraciones;
+		private JPanel panelGeneracionesInvalido;
+			private JLabel labelgeneracionesInvalido;
+		
+		private JPanel panelCruce;
+			private JLabel labelCruce;
+			private JTextField formCruce;
+		private JPanel panelCruceInvalido;
+			private JLabel labelCruceInvalido;
+		
+		private JPanel panelMutacion;
+			private JLabel labelMutacion;
+			private JTextField formMutacion;
+		private JPanel panelMutacionesInvalido;
+			private JLabel labelMutacionesInvalido;
+		
+		private JPanel panelTolerancia;
+			private JLabel labelTolerancia;
+			private JTextField formTolerancia;
+		private JPanel panelToleranciaInvalido;
+			private JLabel labelToleranciaInvalido;
+		
+		private JPanel panelFuncion;
+			private JLabel labelFuncion;
+			private JComboBox formFuncion;
+		private JPanel panelSeleccion;
+			private JLabel labelSeleccion;
+			private JComboBox formSeleccion;
+		/*
+		private JPanel panelCargar;
+			private JButton botonCargar;
+			private JButton botonLimpiar;
+		*/	
 		private JPanel panelInfoCromosomas;
 			private JPanel panelLista; // FIXME: JScrollPane
-				private JList listaPicos;
+			private JList listaPicos;
+			private JPanel panelDetalles;
+			private JTextArea areaInfo;
+				
 	// Derecha	
 	private Plot2DPanel panelResultados; 
-	private JPanel panelDetalles;
-	private JTextArea areaInfo;
+
 		
 		
 			
@@ -90,7 +121,48 @@ public class InterfazGrafica extends JFrame
 		this.info = null;
 		
 		this.setContentPane(obtenerPanelPrincipal());
+		crearBarraMenu();
 		propiedadesBasicas();
+	}
+	
+	private void crearBarraMenu()
+	{
+		menu = new JMenuBar();
+		setJMenuBar(menu);
+
+		menuArchivo = new JMenu("Archivo");
+		itemNuevo = new JMenuItem("Nuevo");
+		itemNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				resetearCampos();	
+			}
+		});
+		menuArchivo.add(itemNuevo);
+		itemSalir = new JMenuItem("Salir");
+		itemSalir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		menuArchivo.add(itemSalir);
+		
+		menuAlgoritmo = new JMenuItem("Algoritmo genŽtico");
+		menuAlgoritmo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//XXX
+				if (validarCampos()) {
+					recogerParametros();
+					controlador.lanzaGenetico(); 
+				} else {
+					JOptionPane.showMessageDialog(null, "Algunos campos no son v‡lidos");
+				}
+			}
+		});
+		
+		menu.add(menuArchivo);
+		menu.add(menuAlgoritmo);
 	}
 	
 	public JPanel obtenerPanelPrincipal()
@@ -122,82 +194,141 @@ public class InterfazGrafica extends JFrame
 	{
 		panelFormulario = new JPanel();
 		panelSelector.addTab("Parametros", null, panelFormulario, null);
-		panelFormulario.setLayout(new GridLayout(8, 1, 0, 0));
-				
+		panelFormulario.setLayout(new GridLayout(12, 1, 0, 0));
+			
+		// 1) panelPoblacion
 			panelPoblacion = new JPanel();
-			panelFormulario.add(panelPoblacion);
 			panelPoblacion.setLayout(new GridLayout(1,0,0,0)); 
 			labelPoblacion = new JLabel("  Poblacion: ");
 			panelPoblacion.add(labelPoblacion);
 			panelPoblacion.add(new JPanel()); // hueco intermedio
 			formPoblacion = new JTextField(String.valueOf(Parametros.TAM_POBLACION_DEFECTO));
 			panelPoblacion.add(formPoblacion);
+		panelFormulario.add(panelPoblacion);
+		
+		// 2) panelPoblacionInvalido
+			panelPoblacionInvalido = new JPanel();
+			panelPoblacionInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelPoblacionInvalido.add(new JPanel()); //hueco intermedio
+			labelPoblacionInvalido = new JLabel("Par‡metro poblaci—n incorrecto");
+			labelPoblacionInvalido.setForeground(Color.RED);
+			labelPoblacionInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelPoblacionInvalido.setVisible(false);
+			panelPoblacionInvalido.add(labelPoblacionInvalido);
+		panelFormulario.add(panelPoblacionInvalido);
 			
+			
+		// 3) panelGeneraciones
 			panelGeneraciones = new JPanel();
 			panelGeneraciones.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelGeneraciones);
 			labelGeneraciones = new JLabel("  Generaciones: ");
 			panelGeneraciones.add(labelGeneraciones);
 			panelGeneraciones.add(new JPanel()); // hueco intermedio
 			formGeneraciones = new JTextField(String.valueOf(Parametros.NUM_GENERACIONES_DEFECTO));
 			panelGeneraciones.add(formGeneraciones);
-			
+		panelFormulario.add(panelGeneraciones);
+		
+		// 4) panelGeneracionesInvalido
+			panelGeneracionesInvalido = new JPanel();
+			panelGeneracionesInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelGeneracionesInvalido.add(new JPanel()); // hueco intermedio
+			labelgeneracionesInvalido = new JLabel("Par‡metro generaciones inv‡lido");
+			labelgeneracionesInvalido.setForeground(Color.RED);
+			labelgeneracionesInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelgeneracionesInvalido.setVisible(false);
+			panelGeneracionesInvalido.add(labelgeneracionesInvalido);
+		panelFormulario.add(panelGeneracionesInvalido);
+		
+		// 5) panelCruce
 			panelCruce = new JPanel();
 			panelCruce.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelCruce);
 			labelCruce = new JLabel("  Prob. Cruce: ");
 			panelCruce.add(labelCruce);
 			panelCruce.add(new JPanel()); // hueco intermedio
 			formCruce = new JTextField(String.valueOf(Parametros.PROB_CRUCE_DEFECTO));
 			panelCruce.add(formCruce);
-					
+		panelFormulario.add(panelCruce);
+		
+		// 6) panelCruceInvalido
+			panelCruceInvalido = new JPanel();
+			panelCruceInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelCruceInvalido.add(new JPanel()); // hueco intermedio
+			labelCruceInvalido = new JLabel("Par‡metro Cruce inv‡lido");
+			labelCruceInvalido.setForeground(Color.RED);
+			labelCruceInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelCruceInvalido.setVisible(false);
+			panelCruceInvalido.add(labelCruceInvalido);
+		panelFormulario.add(panelCruceInvalido);
+		
+		// 7) panelMutacion
 			panelMutacion = new JPanel();
 			panelMutacion.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelMutacion);
 			labelMutacion = new JLabel("  Prob. Mutacion: ");
 			panelMutacion.add(labelMutacion);
 			panelMutacion.add(new JPanel()); // hueco intermedio
 			formMutacion = new JTextField(String.valueOf(Parametros.PROB_MUTACION_DEFECTO));
 			panelMutacion.add(formMutacion);
-			
+		panelFormulario.add(panelMutacion);
+		
+		// 8) panelMutacionesInvalido
+			panelMutacionesInvalido = new JPanel();
+			panelMutacionesInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelMutacionesInvalido.add(new JPanel()); // hueco intermedio
+			labelMutacionesInvalido = new JLabel("Par‡metro mutaciones inv‡lido");
+			labelMutacionesInvalido.setForeground(Color.RED);
+			labelMutacionesInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelMutacionesInvalido.setVisible(false);
+			panelMutacionesInvalido.add(labelMutacionesInvalido);
+		panelFormulario.add(panelMutacionesInvalido);
+		
+		// 9) panelTolerancia
 			panelTolerancia = new JPanel();
 			panelTolerancia.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelTolerancia);
 			labelTolerancia = new JLabel("  Tolerancia: ");
 			panelTolerancia.add(labelTolerancia);
 			panelTolerancia.add(new JPanel()); // hueco intermedio
 			formTolerancia = new JTextField(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
 			panelTolerancia.add(formTolerancia);
-			
+		panelFormulario.add(panelTolerancia);
+		
+		// 10) panelToleranciaInvalido
+			panelToleranciaInvalido = new JPanel();
+			panelToleranciaInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelToleranciaInvalido.add(new JPanel()); // hueco intermedio
+			labelToleranciaInvalido = new JLabel("Par‡metro Tolerancia inv‡lido");
+			labelToleranciaInvalido.setForeground(Color.RED);
+			labelToleranciaInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelToleranciaInvalido.setVisible(false);
+			panelToleranciaInvalido.add(labelToleranciaInvalido);
+		panelFormulario.add(panelToleranciaInvalido);
+		
+		// 11) panelFuncion
 			panelFuncion = new JPanel();
 			panelFuncion.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelFuncion);
-			labelFuncion = new JLabel("  Funcion: ");
+			labelFuncion = new JLabel("  Funci—n: ");
 			panelFuncion.add(labelFuncion);
 			panelFuncion.add(new JPanel()); // hueco intermedio
 			formFuncion = new JComboBox();
 			formFuncion.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
 			panelFuncion.add(formFuncion);
-			
+		panelFormulario.add(panelFuncion);
+		
+		// 12) panelSeleccion
 			panelSeleccion = new JPanel();
 			panelSeleccion.setLayout(new GridLayout(1, 0, 0, 0));
-			panelFormulario.add(panelSeleccion);
-			labelSeleccion = new JLabel("  Algoritmo de selecci—n: ");
+			labelSeleccion = new JLabel("  Selecci—n: ");
 			panelSeleccion.add(labelSeleccion);
 			panelSeleccion.add(new JPanel()); // hueco intermedio
 			formSeleccion = new JComboBox();
 			formSeleccion.setModel(new DefaultComboBoxModel(new String[] {"Torneo", "Ruleta"}));
 			formSeleccion.setSelectedIndex(1);
 			panelSeleccion.add(formSeleccion);
-			
+		panelFormulario.add(panelSeleccion);
+		
+		/*
+		// 13) panelCargar
 			panelCargar = new JPanel();
-			panelCargar.setLayout(new GridLayout(2, 3, 0, 0));
-			/* fila de huecos */
-			panelCargar.add(new JPanel());
-			panelCargar.add(new JPanel());
-			panelCargar.add(new JPanel());
-			/* *** */
-			panelFormulario.add(panelCargar);
+			panelCargar.setLayout(new GridLayout(1, 3, 0, 0));
 				botonLimpiar = new JButton("Limpiar");
 				botonLimpiar.addActionListener(new ActionListener() {
 					@Override
@@ -211,11 +342,17 @@ public class InterfazGrafica extends JFrame
 				botonCargar.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						recogerParametros();
-						controlador.lanzaGenetico();
+						if (validarCampos()) {
+							recogerParametros();
+							controlador.lanzaGenetico();
+						} else {
+							JOptionPane.showMessageDialog(null, "Algunos campos no son v‡lidos");
+						}
 					}
 				});
 			panelCargar.add(botonCargar);
+		panelFormulario.add(panelCargar);
+		*/
 	}
 	
 	private void obtenerInfoCromosomas()
@@ -243,6 +380,7 @@ public class InterfazGrafica extends JFrame
 		panelDetalles.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panelDetalles.setLayout(new GridLayout(1, 0, 0, 0));
 		areaInfo = new JTextArea();
+		areaInfo.setEditable(false);
 		panelDetalles.add(areaInfo);
 		
 		// 3) add
@@ -285,7 +423,6 @@ public class InterfazGrafica extends JFrame
 	
 	private void recogerParametros()
 	{
-		// TODO => Validar campos
 		this.parametros.setTamPoblacion(Integer.parseInt(formPoblacion.getText()));
 		this.parametros.setNumGeneraciones(Integer.parseInt(formGeneraciones.getText()));
 		this.parametros.setProbCruce(Double.parseDouble(formCruce.getText()));
@@ -304,6 +441,8 @@ public class InterfazGrafica extends JFrame
 		this.formTolerancia.setText(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
 		this.formFuncion.setSelectedIndex(0);
 		this.formSeleccion.setSelectedIndex(1);
+		
+		this.panelResultados.removeAllPlots();
 	}
 	
 	private void mostrarDetallesCromosoma(int primerIndice, int ultimoIndice)
@@ -326,6 +465,75 @@ public class InterfazGrafica extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, FRAME_WEIGHT, FRAME_HEIGHT);
 		setResizable(false);
+	}
+	
+	private boolean validarCampos()
+	{
+		boolean camposValidos = true;
+		
+		if ( !esNumeroNatural(formPoblacion.getText()) ){
+			labelPoblacionInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelPoblacionInvalido.setVisible(false);
+		}
+		
+		if ( !esNumeroNatural(formGeneraciones.getText()) ){
+			labelgeneracionesInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelgeneracionesInvalido.setVisible(false);
+		}
+		
+		if ( !esNumeroReal(formCruce.getText()) ){
+			labelCruceInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelCruceInvalido.setVisible(false);
+		}
+		
+		if ( !esNumeroReal(formMutacion.getText()) ){
+			labelMutacionesInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelMutacionesInvalido.setVisible(false);
+		}
+		
+		if ( !esNumeroReal(formTolerancia.getText()) ){
+			labelToleranciaInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelToleranciaInvalido.setVisible(false);
+		}
+		
+		return camposValidos;
+	}
+	
+	private boolean esNumeroNatural(String s)
+	{
+	    for (char c : s.toCharArray()){
+	        if (!Character.isDigit(c)) return false;
+	    }
+	    return true;
+	}
+	
+	/*
+	 * Comprueba que es un numero real y con el formato 0.X
+	 */
+	private boolean esNumeroReal(String s)  
+	{  
+	  char[] cadena = s.toCharArray();
+	  // Formato 0.X
+	  if ( (cadena[0] != '0') || (cadena[1] != '.') ) {
+		  return false;
+	  }
+	  // digitos
+	  for (int i = 2; i < cadena.length; i++){
+	        if (!Character.isDigit(cadena[i])) {
+	        	return false;
+	        }
+	  }
+	  return true;  
 	}
 	
 	public Parametros getParametros(){ return parametros; }
