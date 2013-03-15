@@ -3,7 +3,6 @@ package algoritmoGenetico;
 import interfaz.Parametros;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Clase que implementa el algoritmo genetico principal
@@ -19,6 +18,7 @@ public class AlgoritmoGenetico {
 	
 	// Informacion para las tablas
 	private ArrayList<Cromosoma> picos;
+	private ArrayList<Integer> generacionesPicos;
 	
 	/**
 	 * Implementacion del algoritmo genetico.
@@ -41,6 +41,7 @@ public class AlgoritmoGenetico {
 		
 		// Informacion para las tablas
 		picos = new ArrayList<Cromosoma>();
+		generacionesPicos = new ArrayList<Integer>();
 		Cromosoma picoAnterior = null;
 		
 		//Obtenemos la longitud de los cromosomas para este problema
@@ -100,22 +101,15 @@ public class AlgoritmoGenetico {
 			if (i==0) {
 				picoAnterior = mejor.clone();
 				picos.add(mejor.clone());
+				generacionesPicos.add(i);
 			}
 			
 			if (picoAnterior.getAptitud() < mejoresCromosomas[i].getAptitud()) {
 				picoAnterior = mejoresCromosomas[i];
 				picos.add(mejoresCromosomas[i].clone());
+				generacionesPicos.add(i);
 			}
 		}
-		
-		// debug
-		Iterator<Cromosoma> it = picos.iterator();
-		System.out.println("\n\n\n\n");
-		while(it.hasNext()) {
-			System.out.println(it.next().getAptitud());
-		}
-		// fin
-		//System.out.println(null)
 	}
 
 	private int calcularMedia(Cromosoma[] pob) {
@@ -382,4 +376,6 @@ public class AlgoritmoGenetico {
 	public Cromosoma[] getMejoresCromosomas() {return this.mejoresCromosomas; }
 	public int[] getMedias() {return this.medias; }
 	public ArrayList<Cromosoma> getPicos(){ return this.picos; }
+	public ArrayList<Integer> getGeneracionesPicos(){ return this.generacionesPicos; }
+	
 }

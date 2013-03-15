@@ -1,5 +1,6 @@
 package controlador;
 
+import interfaz.Info;
 import interfaz.InterfazGrafica;
 
 import java.util.ArrayList;
@@ -42,9 +43,22 @@ public class Controlador
 		
 		// Recoger: Picos
 		ArrayList<Cromosoma> picos = genetico.getPicos();
+		ArrayList<Integer> generacionesPicos = genetico.getGeneracionesPicos();
+		Iterator<Cromosoma> itPicos = picos.iterator();
+		Iterator<Integer> itGeneraciones = generacionesPicos.iterator();
+		Cromosoma cromosomaActual = null;
+		Info[] info = new Info[picos.size()];
+		int i = 0;
 		
-		// mostrar(lineaBase, lineaRoja, tablaSuperior)
-		interfaz.mostrar(aptitudesMejores, aptitudesGokus, picos);
+		//for(variable : estructura) FIXME: eliminar los iteradores
+		while(itGeneraciones.hasNext()) {
+			cromosomaActual = itPicos.next();
+			info[i] = new Info(itGeneraciones.next().intValue(), cromosomaActual.toString(), cromosomaActual.getFenotipo(), cromosomaActual.getAptitud());
+			i++;
+		}
+				
+		// mostrar(lineaBase, lineaRoja, tablaSuperior, tablaInferior)
+		interfaz.mostrar(aptitudesMejores, aptitudesGokus, info);
 	}
 	
 	

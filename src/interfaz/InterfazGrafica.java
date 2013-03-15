@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,12 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.math.plot.Plot2DPanel;
 
-import algoritmoGenetico.Cromosoma;
 import controlador.Controlador;
 
 
@@ -33,10 +31,12 @@ import controlador.Controlador;
 public class InterfazGrafica extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-
-	/* Controlador & Parametros */
+	private static final int LINEAS_CABECERA = 2;
+	
+	/* Controlador & Parametros  + Info de las tablas */
 	private Controlador controlador;
 	private Parametros parametros;
+	private Info[] info;
 	
 	/* Definicion de constantes */
 	private static final int FRAME_WEIGHT = 800;
@@ -87,6 +87,7 @@ public class InterfazGrafica extends JFrame
 	{
 		this.controlador = c;
 		this.parametros = new Parametros();
+		this.info = null;
 		
 		this.setContentPane(obtenerPanelPrincipal());
 		propiedadesBasicas();
@@ -227,9 +228,14 @@ public class InterfazGrafica extends JFrame
 		panelLista.setBorder(new LineBorder(new Color(128, 128, 128), 2, true));
 		panelLista.setLayout(new GridLayout(0, 1, 0, 0));
 		listaPicos = new JList();
-		listaPicos.setSelectedIndex(1);
-		listaPicos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		listaPicos.setSelectedIndex(2); //FIXME: No funciona
 		listaPicos.setLayoutOrientation(JList.VERTICAL);
+		listaPicos.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				mostrarDetallesCromosoma(e.getFirstIndex(), e.getLastIndex());
+			}
+		});
 		panelLista.add(listaPicos);
 		
 		// 2) Detalles
@@ -261,21 +267,20 @@ public class InterfazGrafica extends JFrame
 		panelResultados.addLinePlot("Cromosoma mejor encontrado", x, gokusMejores);
 	}
 	
-	private void obtenerTabla(ArrayList<Cromosoma> picos)
+	private void obtenerTabla()
 	{
-		// recoger los datos
-		Object[] datos = new String[picos.size()];
-		int i = 0;
-		Iterator<Cromosoma> it = picos.iterator();
-		while(it.hasNext()) {
-			datos[i] = it.next().toString();
-			i++;
+		String[] datos = new String[info.length + LINEAS_CABECERA];
+		datos[0] = new String("Lista de picos");
+		datos[1] = new String("==============");
+		
+		for(int i = 0; i < info.length; i++) {
+			datos[i + LINEAS_CABECERA] = new String(
+					"generacion: " + info[i].generacion +
+					"\t\t fenotipo: " + String.valueOf(info[i].aptitud)
+					);
 		}
 		
-		// borrar la tabla anterior
-		
 		listaPicos.setListData(datos);
-		
 	}
 	
 	private void recogerParametros()
@@ -301,6 +306,20 @@ public class InterfazGrafica extends JFrame
 		this.formSeleccion.setSelectedIndex(1);
 	}
 	
+	private void mostrarDetallesCromosoma(int primerIndice, int ultimoIndice)
+	{
+		//TODO: Captar las lineas de cabecera
+		// FIXME: no funcionan bien los indices. 
+		String s = "";
+		for (int i = primerIndice; i <= ultimoIndice; i++) {
+			s += 	"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
+					"Representa: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
+					"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
+					"----------------------------------------------------- \n";
+		}
+		areaInfo.setText(s);
+	}
+	
 	private void propiedadesBasicas()
 	{
 		this.setVisible(true);
@@ -311,10 +330,17 @@ public class InterfazGrafica extends JFrame
 	
 	public Parametros getParametros(){ return parametros; }
 	
-	public void mostrar(double[] aptitudesMejores, double[] gokusMejores, ArrayList<Cromosoma> picos)
+	/**
+	 * TODO: hacer el javadoc
+	 * @param aptitudesMejores
+	 * @param gokusMejores
+	 * @param picos
+	 */
+	public void mostrar( double[] aptitudesMejores, double[] gokusMejores, Info[] infoMostrar)
 	{
-		
+		// XXX
+		this.info = infoMostrar;
 		obtenerResultados(aptitudesMejores,gokusMejores);
-		obtenerTabla(picos);
+		obtenerTabla();
 	}
 }
