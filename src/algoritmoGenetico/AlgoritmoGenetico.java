@@ -14,7 +14,7 @@ public class AlgoritmoGenetico {
 	// Informacion para las graficas
 	private Cromosoma[] gokus;
 	private Cromosoma[] mejoresCromosomas;
-	private int[] medias;
+	private double[] medias;
 	
 	// Informacion para las tablas
 	private ArrayList<Cromosoma> picos;
@@ -29,6 +29,8 @@ public class AlgoritmoGenetico {
 	 * @param parametros del problema
 	 */
 	public void algoritmo_genetico(Parametros parametros) {
+		//TODO: poner esta variable como uno de los atributos
+		double porcElite = 0.04;
 		// Obtenemos la poblacion inicial 
 		Cromosoma[] pob = poblacion_inicial(parametros); 
 		int pos_mejor = evaluarPoblacion(pob);	
@@ -36,7 +38,7 @@ public class AlgoritmoGenetico {
 		// Informacion para las graficas
 		mejoresCromosomas = new Cromosoma[parametros.getNumGeneraciones()];
 		gokus = new Cromosoma[parametros.getNumGeneraciones()];
-		medias = new int[parametros.getNumGeneraciones()];
+		medias = new double[parametros.getNumGeneraciones()];
 		Cromosoma mejor;
 		
 		// Informacion para las tablas
@@ -71,9 +73,12 @@ public class AlgoritmoGenetico {
 				this.longitudCromosoma = CromosomaF1.longitud;
 				mejor= new CromosomaF1(parametros.getTolerancia());
 		}
-
+		Cromosoma[] elite = new Cromosoma[(int) (parametros.getTamPoblacion()*porcElite)];
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
+		// 0) cogemos a la elite
+			elite = separaMejores(pob,porcElite);
+			
 		// 1) seleccion
 			if (parametros.getSeleccion() == 0)
 				pob = seleccionTorneo(pob, parametros);
@@ -87,13 +92,16 @@ public class AlgoritmoGenetico {
 		// 3) mutacion
 			mutacion(pob, parametros);
 			
-		// 4) tratar la nueva solucion
+		// 4) volvemos a integrar a la elite			
+			incluye(elite,pob);
+			
+		// 5) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
-			if (pob[pos_mejor].getAptitud() > mejor.getAptitud()){
+			if (pob[pos_mejor].getAptitudModificada() > mejor.getAptitudModificada()){
 				mejor=pob[pos_mejor].clone();
 			}
 			
-		// 5) guardar los resultados
+		// 6) guardar los resultados
 			mejoresCromosomas[i]=pob[pos_mejor];
 			gokus[i]=mejor.clone();
 			medias[i]=calcularMedia(pob);
@@ -112,8 +120,43 @@ public class AlgoritmoGenetico {
 		}
 	}
 
-	private int calcularMedia(Cromosoma[] pob) {
-		int media=0;
+	/**
+	 * Inserta una elite en una poblacion sustituyendo los primeros cromosomas 
+	 * por los mejores extraidos anteriormente.
+	 * @param elite
+	 * @param poblacion 
+	 */
+	private void incluye(Cromosoma[] elite, Cromosoma[] pob) {
+		for (int i=0; i<elite.length; i++){
+			pob[i]=elite[i];
+		}
+	}
+
+	/**
+	 * Dada una poblacion devuelve a los mejores
+	 * @param poblacion inicial
+	 * @param porcentaje de elite a seleccionar
+	 * @return mejores cromosomas
+	 */
+	private Cromosoma[] separaMejores(Cromosoma[] pob, double porcElite) {
+		int tamElite = (int) (pob.length*porcElite);
+		Cromosoma[] elite = new Cromosoma[tamElite];
+		Cromosoma[] pobAux = pob.clone();
+		int posMejor;
+		for (int i=0; i<tamElite; i++){
+			posMejor=dameMejor(pobAux);
+			elite[i]=pobAux[posMejor].clone();
+			pobAux[posMejor]=null;
+		}
+		return elite;
+	}
+	/**
+	 * Dada una poblacion calcula la media de sus aptitudes
+	 * @param poblacion
+	 * @return media
+	 */
+	private double calcularMedia(Cromosoma[] pob) {
+		double media=0;
 		for (int i=0; i<pob.length;i++){
 			media+=pob[i].getAptitud();
 		}
@@ -202,7 +245,7 @@ public class AlgoritmoGenetico {
 		for(int i=0; i<parametros.getTamPoblacion();i++) {
 			for(int j=0; j<tamTorneo; j++){
 				random=aleatorioEntre(0,parametros.getTamPoblacion()-1);
-				if (mejor==null || (pob[random].getAptitud() > mejor.getAptitud()))
+				if (mejor==null || (pob[random].getAptitudModificada() > mejor.getAptitudModificada()))
 					mejor = pob[random];
 			}
 			poblacionSeleccionada[i]=mejor.clone();
@@ -226,36 +269,10 @@ public class AlgoritmoGenetico {
 		// 2. Contador seleccionados
 		int numSelCruce = 0;
 		int puntoCruce;
-		double prob;		
-
-		//Inicializamos los hijos
-		Cromosoma hijo1=null;
-		Cromosoma hijo2=null;
-		switch(parametros.getFuncion()) {
-			case 1:
-				hijo1 = new CromosomaF1(parametros.getTolerancia());
-				hijo2 = new CromosomaF1(parametros.getTolerancia());
-				break;
-			case 2:
-				hijo1 = new CromosomaF2(parametros.getTolerancia());
-				hijo2 = new CromosomaF2(parametros.getTolerancia());
-				break;
-			case 3:
-				hijo1 = new CromosomaF3(parametros.getTolerancia());
-				hijo2 = new CromosomaF3(parametros.getTolerancia());
-				break;
-			case 4:
-				hijo1 = new CromosomaF4(parametros.getTolerancia());
-				hijo2 = new CromosomaF4(parametros.getTolerancia());
-				break;
-			case 5:
-				hijo1 = new CromosomaF5(parametros.getTolerancia());
-				hijo2 = new CromosomaF5(parametros.getTolerancia());
-				break;
-		}
+		double prob;	
 		
 		// 3. Se eligen los individuos a cruzar
-		for (int i=0; i<parametros.getNumGeneraciones(); i++){
+		for (int i=0; i<parametros.getTamPoblacion(); i++){
 			prob=Math.random();
 			if (prob < parametros.getProbCruce()){
 				selCruce[numSelCruce] = i;
@@ -271,10 +288,10 @@ public class AlgoritmoGenetico {
 		// 5. Se cruzan los individuos elegidos en un punto al azar
 		for (int i=0; i<numSelCruce; i+=2){
 			puntoCruce = aleatorioEntre(0, longitudCromosoma);
-			cruce(pob[selCruce[i]],pob[selCruce[i+1]],hijo1,hijo2,puntoCruce);
+			Cromosoma[] cromos = cruce(pob[selCruce[i]],pob[selCruce[i+1]],puntoCruce,parametros);
 			//los nuevos individuos sustituyen a sus progenitores
-			pob[selCruce[i]]=hijo1;
-			pob[selCruce[i+1]]=hijo2;
+			pob[selCruce[i]]=cromos[0];
+			pob[selCruce[i+1]]=cromos[1];
 		}
 		return pob;
 	}
@@ -293,6 +310,7 @@ public class AlgoritmoGenetico {
 				random = Math.random();
 				if (random < parametros.getProbMutacion()) {
 					pob[i].mutaGen(j);
+					pob[i].setAptitud(pob[i].evaluarCromosoma());
 				}
 			}
 		}
@@ -309,8 +327,34 @@ public class AlgoritmoGenetico {
 	 * @param Cromosoma hijo2 (hija)
 	 * @param puntoCruce
 	 */
-	private void cruce(Cromosoma padre, Cromosoma madre, Cromosoma hijo, Cromosoma hija, int puntoCruce) 
+	private Cromosoma[] cruce(Cromosoma padre, Cromosoma madre, int puntoCruce, Parametros parametros) 
 	{
+		
+		//Inicializamos los hijos
+		Cromosoma hijo=null;
+		Cromosoma hija=null;
+		switch(parametros.getFuncion()) {
+			case 1:
+				hijo = new CromosomaF1(parametros.getTolerancia());
+				hija = new CromosomaF1(parametros.getTolerancia());
+				break;
+			case 2:
+				hijo = new CromosomaF2(parametros.getTolerancia());
+				hija = new CromosomaF2(parametros.getTolerancia());
+				break;
+			case 3:
+				hijo = new CromosomaF3(parametros.getTolerancia());
+				hija = new CromosomaF3(parametros.getTolerancia());
+				break;
+			case 4:
+				hijo = new CromosomaF4(parametros.getTolerancia());
+				hija = new CromosomaF4(parametros.getTolerancia());
+				break;
+			case 5:
+				hijo = new CromosomaF5(parametros.getTolerancia());
+				hija = new CromosomaF5(parametros.getTolerancia());
+				break;
+		}
 		hijo.inicializarGenes(padre.getLongitud());
 		hija.inicializarGenes(madre.getLongitud());
 		
@@ -330,11 +374,15 @@ public class AlgoritmoGenetico {
 			hijo.setGen(i, madre.getGenes()[i]);
 		}
 		
-		// evaluar los nuevos individuos
-		
+		// evaluar los nuevos individuos		
 		hijo.evaluarCromosoma();
 		hija.evaluarCromosoma();
 		
+		//devuelve los hijos
+		Cromosoma[] cromos = new Cromosoma[2];
+		cromos[0]=hijo;
+		cromos[1]=hija;
+		return cromos;
 		
 	}
 	
@@ -350,18 +398,52 @@ public class AlgoritmoGenetico {
 		double sumaAptitudes = 0;
 		
 		int pos_mejor = 0;
+
+		//En caso de que la aptitud peor no sea negativa restaremos 0 y no pasará nada
+		double aptitudPeor = 0;
 		
 		for (int i = 0; i< poblacion.length; i++) {
-			sumaAptitudes += poblacion[i].getAptitud();
-			if (poblacion[i].getAptitud() > aptitudMejor) {
+			//Buscamos la aptitud peor
+			if (poblacion[i].getAptitudModificada() < aptitudPeor)
+				aptitudPeor = poblacion[i].getAptitudModificada();
+		}
+		
+		for (int i = 0; i< poblacion.length; i++) {
+			//Calculamos la puntuacion restando la aptitud peor para evitar numeros negativos
+			poblacion[i].setPuntuacion(poblacion[i].getAptitudModificada()-aptitudPeor); 
+			//Calculamos la suma de las aptitudes
+			sumaAptitudes += poblacion[i].getPuntuacion();
+			//Buscamos la aptitud mejor y su posicion
+			if (poblacion[i].getAptitudModificada() > aptitudMejor) {
 				pos_mejor = i;
-				aptitudMejor = poblacion[i].getAptitud();
+				aptitudMejor = poblacion[i].getAptitudModificada();
 			}
 		}
 		
 		for (int i = 0; i< poblacion.length; i++) {
-			puntuacionAcumulada+=poblacion[i].getAptitud();
+			puntuacionAcumulada+=poblacion[i].getPuntuacion();
 			poblacion[i].setPuntuacionAcumulada(puntuacionAcumulada/sumaAptitudes);
+		}
+		
+		return pos_mejor;
+	}
+	
+	/**
+	 * Dada una poblacion nos devuelve al mejor individuo
+	 * @param poblacion para buscar al mejor
+	 * @return la posicion del mejor individuo
+	 */
+	private int dameMejor(Cromosoma[] poblacion)
+	{
+		double aptitudMejor = 0;
+		
+		int pos_mejor = 0;
+		
+		for (int i = 0; i< poblacion.length; i++) {
+			if (poblacion[i]!=null && poblacion[i].getAptitudModificada() > aptitudMejor) {
+				pos_mejor = i;
+				aptitudMejor = poblacion[i].getAptitudModificada();
+			}
 		}
 		
 		return pos_mejor;
@@ -374,7 +456,7 @@ public class AlgoritmoGenetico {
 	/* Getters */
 	public Cromosoma[] getGokus(){ return this.gokus; }
 	public Cromosoma[] getMejoresCromosomas() {return this.mejoresCromosomas; }
-	public int[] getMedias() {return this.medias; }
+	public double[] getMedias() {return this.medias; }
 	public ArrayList<Cromosoma> getPicos(){ return this.picos; }
 	public ArrayList<Integer> getGeneracionesPicos(){ return this.generacionesPicos; }
 	

@@ -44,9 +44,9 @@ public class CromosomaF1 extends Cromosoma
 		this.aptitud = evaluarCromosoma();
 	}
 	
-	public CromosomaF1(boolean[] genes, double fenotipo, double aptitud, double puntAcc)
+	public CromosomaF1(boolean[] genes, double fenotipo, double aptitud, double punt, double puntAcc)
 	{
-		super(genes, fenotipo, aptitud, puntAcc);
+		super(genes, fenotipo, aptitud, punt ,puntAcc);
 	}
 	
 	/* Implementacion de metodos abstractos */
@@ -64,7 +64,7 @@ public class CromosomaF1 extends Cromosoma
 	@Override
 	protected Cromosoma clone() 
 	{
-		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());
+		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getPuntuacion(),this.getAptitud(),this.getPuntuacionAcumulada());
 	}
 	
 }

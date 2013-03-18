@@ -58,7 +58,7 @@ public class Controlador
 		}
 				
 		// mostrar(lineaBase, lineaRoja, tablaSuperior, tablaInferior)
-		interfaz.mostrar(aptitudesMejores, aptitudesGokus, info);
+		interfaz.mostrar(aptitudesMejores, aptitudesGokus, genetico.getMedias(), info);
 	}
 	
 	

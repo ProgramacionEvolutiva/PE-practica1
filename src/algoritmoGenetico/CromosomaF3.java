@@ -44,15 +44,15 @@ public class CromosomaF3 extends Cromosoma
 		this.aptitud = evaluarCromosoma();
 	}
 	
-	public CromosomaF3(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
+	public CromosomaF3(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
-		super(genes,fenotipo,aptitud,puntuacionAcumulada);
+		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
 	}
 
 	@Override
 	protected Cromosoma clone()
 	{
-		return new CromosomaF3(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());
+		return new CromosomaF3(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());
 	}
 
 	@Override

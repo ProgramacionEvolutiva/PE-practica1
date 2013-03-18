@@ -44,16 +44,21 @@ public class CromosomaF2 extends Cromosoma
 	public CromosomaF2(double tolerancia) 
 	{	
 		if (longitud == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin, longitudX, longitudY);
+			int[] longs = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
+			longitudX=longs[0];
+			longitudY=longs[1];
+			longitud=longs[2];
 		}
 		this.genes = inicializarGenes(longitud);
-		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
+		double[] fenotipos=calcularFenotipos(longitud,xMax,xMin,yMax,yMin,longitudX,longitudY);
+		fenotipo=fenotipos[0];
+		fenotipo2=fenotipos[1];
 		this.aptitud = evaluarCromosoma();
 	}
 
-	public CromosomaF2(boolean[] genes, double fenotipo, double fenotipo2, double aptitud, double puntuacionAcumulada) 
+	public CromosomaF2(boolean[] genes, double fenotipo, double fenotipo2, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
-		super(genes,fenotipo,aptitud,puntuacionAcumulada);
+		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
 		this.fenotipo2=fenotipo2;
 	}
 	
@@ -67,7 +72,7 @@ public class CromosomaF2 extends Cromosoma
 
 	@Override
 	protected Cromosoma clone() {
-		return new CromosomaF2(this.getGenes().clone(),this.getFenotipo(),this.getFenotipo2(),this.getAptitud(),this.getPuntuacionAcumulada());
+		return new CromosomaF2(this.getGenes().clone(),this.getFenotipo(),this.getFenotipo2(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());
 	}
 
 	@Override
