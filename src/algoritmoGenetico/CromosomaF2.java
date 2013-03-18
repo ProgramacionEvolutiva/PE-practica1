@@ -34,21 +34,18 @@ public class CromosomaF2 extends Cromosoma
 	private static final double yMax = 5.8;
 	private static final double yMin = 4.1;
 	
-	public static int longitudX = -1;
-	public static int longitudY = -1;
-	public static int longitud = -1;
-	
 	private double fenotipo2;	
 
+	public static int dameLongitud(double tolerancia){
+		return calcularLongitud(tolerancia, xMax, xMin, yMax, yMin)[2];
+	}
 	
 	public CromosomaF2(double tolerancia) 
 	{	
-		if (longitud == -1) {
-			int[] longs = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
-			longitudX=longs[0];
-			longitudY=longs[1];
-			longitud=longs[2];
-		}
+		int[] longs = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
+		int longitudX=longs[0];
+		int longitudY=longs[1];
+		int longitud=longs[2];
 		this.genes = inicializarGenes(longitud);
 		double[] fenotipos=calcularFenotipos(longitud,xMax,xMin,yMax,yMin,longitudX,longitudY);
 		fenotipo=fenotipos[0];

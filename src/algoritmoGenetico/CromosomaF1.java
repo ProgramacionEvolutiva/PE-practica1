@@ -32,13 +32,13 @@ public class CromosomaF1 extends Cromosoma
 	private static final double xMax = 32.0;
 	private static final double xMin = 0.0;
 	
-	public static int longitud = -1;
+	public static int dameLongitud(double tolerancia){
+		return calcularLongitud(tolerancia, xMax, xMin);
+	}
 	
 	public CromosomaF1(double tolerancia) 
 	{	
-		if (longitud == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin);
-		}
+		int longitud = calcularLongitud(tolerancia, xMax, xMin);
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		this.aptitud = evaluarCromosoma();
@@ -64,7 +64,7 @@ public class CromosomaF1 extends Cromosoma
 	@Override
 	protected Cromosoma clone() 
 	{
-		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getPuntuacion(),this.getAptitud(),this.getPuntuacionAcumulada());
+		return new CromosomaF1(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());
 	}
 	
 }

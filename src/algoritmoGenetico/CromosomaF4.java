@@ -33,15 +33,15 @@ public class CromosomaF4 extends Cromosoma
 	private static final int xMin = 0;
 	private static int n=1;
 	
-	public static int longitud = -1;
-	
 	private double[] fenotipo2;
+	
+	public static int dameLongitud(double tolerancia){
+		return calcularLongitudConArray(tolerancia, xMax, xMin, n);
+	}
 	
 	public CromosomaF4(double tolerancia) 
 	{	
-		if (longitud == -1) {
-			longitud = calcularLongitudConArray(tolerancia, xMax, xMin, n);
-		}
+		int longitud = calcularLongitudConArray(tolerancia, xMax, xMin, n);
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo2 = calcularFenotipo(longitud,xMax,xMin,n);
 		this.aptitud = evaluarCromosoma();

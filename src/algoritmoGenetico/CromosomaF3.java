@@ -31,14 +31,14 @@ public class CromosomaF3 extends Cromosoma
 	/* Valores definidos en el problema */
 	private static final int xMax = 250;
 	private static final int xMin = -250;
-	
-	public static int longitud = -1;
 		
+	public static int dameLongitud(double tolerancia){
+		return calcularLongitud(tolerancia, xMax, xMin);
+	}
+	
 	public CromosomaF3(double tolerancia) 
 	{	
-		if (longitud == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin);
-		}
+		int longitud = calcularLongitud(tolerancia, xMax, xMin);
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		this.aptitud = evaluarCromosoma();
