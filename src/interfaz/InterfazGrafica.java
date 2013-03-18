@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,7 +45,7 @@ public class InterfazGrafica extends JFrame
 	
 	/* Definicion de constantes */
 	private static final int FRAME_WEIGHT = 800;
-	private static final int FRAME_HEIGHT = 480;
+	private static final int FRAME_HEIGHT = 600;
 	
 	/* Componentes graficos */
 	
@@ -91,17 +92,24 @@ public class InterfazGrafica extends JFrame
 		private JPanel panelToleranciaInvalido;
 			private JLabel labelToleranciaInvalido;
 		
+		private JPanel panelElitismo;
+			private JLabel labelElitismo;
+			private JTextField formElitismo;
+		private JPanel panelElitismoInvalido;
+			private JLabel labelElitismoInvalido;
+			
 		private JPanel panelFuncion;
 			private JLabel labelFuncion;
 			private JComboBox formFuncion;
+		
 		private JPanel panelSeleccion;
 			private JLabel labelSeleccion;
 			private JComboBox formSeleccion;
-		/*
+			
 		private JPanel panelCargar;
 			private JButton botonCargar;
 			private JButton botonLimpiar;
-		*/	
+		
 		private JPanel panelInfoCromosomas;
 			private JPanel panelLista; // FIXME: JScrollPane
 			private JList listaPicos;
@@ -147,7 +155,7 @@ public class InterfazGrafica extends JFrame
 		});
 		menuArchivo.add(itemSalir);
 		
-		menuAlgoritmo = new JMenuItem("Algoritmo genético");
+		menuAlgoritmo = new JMenuItem("Algoritmo genetico");
 		menuAlgoritmo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -156,7 +164,7 @@ public class InterfazGrafica extends JFrame
 					recogerParametros();
 					controlador.lanzaGenetico(); 
 				} else {
-					JOptionPane.showMessageDialog(null, "Algunos campos no son válidos");
+					JOptionPane.showMessageDialog(null, "Algunos campos no son validos");
 				}
 			}
 		});
@@ -186,7 +194,7 @@ public class InterfazGrafica extends JFrame
 	}
 
 	/**
-	 * Crea el panel formulario usando como layout GridLayout(7 filas)
+	 * Crea el panel formulario usando como layout GridLayout(15 filas)
 	 *  
 	 * @return panel
 	 */
@@ -194,7 +202,7 @@ public class InterfazGrafica extends JFrame
 	{
 		panelFormulario = new JPanel();
 		panelSelector.addTab("Parametros", null, panelFormulario, null);
-		panelFormulario.setLayout(new GridLayout(12, 1, 0, 0));
+		panelFormulario.setLayout(new GridLayout(15, 1, 0, 0));
 			
 		// 1) panelPoblacion
 			panelPoblacion = new JPanel();
@@ -253,7 +261,7 @@ public class InterfazGrafica extends JFrame
 			panelCruceInvalido = new JPanel();
 			panelCruceInvalido.setLayout(new GridLayout(1,2,0,0));
 			panelCruceInvalido.add(new JPanel()); // hueco intermedio
-			labelCruceInvalido = new JLabel("Parámetro Cruce inválido");
+			labelCruceInvalido = new JLabel("Parametro Cruce invalido");
 			labelCruceInvalido.setForeground(Color.RED);
 			labelCruceInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
 			labelCruceInvalido.setVisible(false);
@@ -274,7 +282,7 @@ public class InterfazGrafica extends JFrame
 			panelMutacionesInvalido = new JPanel();
 			panelMutacionesInvalido.setLayout(new GridLayout(1,2,0,0));
 			panelMutacionesInvalido.add(new JPanel()); // hueco intermedio
-			labelMutacionesInvalido = new JLabel("Parámetro mutaciones inválido");
+			labelMutacionesInvalido = new JLabel("Parametro mutaciones invalido");
 			labelMutacionesInvalido.setForeground(Color.RED);
 			labelMutacionesInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
 			labelMutacionesInvalido.setVisible(false);
@@ -295,17 +303,38 @@ public class InterfazGrafica extends JFrame
 			panelToleranciaInvalido = new JPanel();
 			panelToleranciaInvalido.setLayout(new GridLayout(1,2,0,0));
 			panelToleranciaInvalido.add(new JPanel()); // hueco intermedio
-			labelToleranciaInvalido = new JLabel("Parámetro Tolerancia inválido");
+			labelToleranciaInvalido = new JLabel("Parametro Tolerancia invalido");
 			labelToleranciaInvalido.setForeground(Color.RED);
 			labelToleranciaInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
 			labelToleranciaInvalido.setVisible(false);
 			panelToleranciaInvalido.add(labelToleranciaInvalido);
 		panelFormulario.add(panelToleranciaInvalido);
 		
-		// 11) panelFuncion
+		// 11) panelElitismo
+			panelElitismo = new JPanel();
+			panelElitismo.setLayout(new GridLayout(1,0,0,0));
+			labelElitismo = new JLabel("  Elitismo: ");
+			panelElitismo.add(labelElitismo);
+			panelElitismo.add(new JPanel()); // hueco intermedio
+			formElitismo = new JTextField("0"); // TODO: ELITISMO_DEFECTO en parametros
+			panelElitismo.add(formElitismo);
+		panelFormulario.add(panelElitismo);
+		
+		// 12) panelElitismoInvalido
+			panelElitismoInvalido = new JPanel();
+			panelElitismoInvalido.setLayout(new GridLayout(1,2,0,0));
+			panelElitismoInvalido.add(new JPanel()); // hueco intermedio
+			labelElitismoInvalido = new JLabel("Parametro Elitismo invalido");
+			labelElitismoInvalido.setForeground(Color.RED);
+			labelElitismoInvalido.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+			labelElitismoInvalido.setVisible(false);
+			panelElitismoInvalido.add(labelElitismoInvalido);
+		panelFormulario.add(panelElitismoInvalido);
+	
+		// 13) panelFuncion
 			panelFuncion = new JPanel();
 			panelFuncion.setLayout(new GridLayout(1, 0, 0, 0));
-			labelFuncion = new JLabel("  Función: ");
+			labelFuncion = new JLabel("  Funcion: ");
 			panelFuncion.add(labelFuncion);
 			panelFuncion.add(new JPanel()); // hueco intermedio
 			formFuncion = new JComboBox();
@@ -313,10 +342,10 @@ public class InterfazGrafica extends JFrame
 			panelFuncion.add(formFuncion);
 		panelFormulario.add(panelFuncion);
 		
-		// 12) panelSeleccion
+		// 14) panelSeleccion
 			panelSeleccion = new JPanel();
 			panelSeleccion.setLayout(new GridLayout(1, 0, 0, 0));
-			labelSeleccion = new JLabel("  Selección: ");
+			labelSeleccion = new JLabel("  Seleccion: ");
 			panelSeleccion.add(labelSeleccion);
 			panelSeleccion.add(new JPanel()); // hueco intermedio
 			formSeleccion = new JComboBox();
@@ -325,8 +354,7 @@ public class InterfazGrafica extends JFrame
 			panelSeleccion.add(formSeleccion);
 		panelFormulario.add(panelSeleccion);
 		
-		/*
-		// 13) panelCargar
+		// 15) panelCargar
 			panelCargar = new JPanel();
 			panelCargar.setLayout(new GridLayout(1, 3, 0, 0));
 				botonLimpiar = new JButton("Limpiar");
@@ -346,13 +374,12 @@ public class InterfazGrafica extends JFrame
 							recogerParametros();
 							controlador.lanzaGenetico();
 						} else {
-							JOptionPane.showMessageDialog(null, "Algunos campos no son válidos");
+							JOptionPane.showMessageDialog(null, "Algunos campos no son validos");
 						}
 					}
 				});
 			panelCargar.add(botonCargar);
 		panelFormulario.add(panelCargar);
-		*/
 	}
 	
 	private void obtenerInfoCromosomas()
@@ -439,6 +466,7 @@ public class InterfazGrafica extends JFrame
 		this.formCruce.setText(String.valueOf(Parametros.PROB_CRUCE_DEFECTO));
 		this.formMutacion.setText(String.valueOf(Parametros.PROB_MUTACION_DEFECTO));
 		this.formTolerancia.setText(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
+		this.formElitismo.setText("0"); //FIXME: Parametros.ELITISMO_DEFECTO
 		this.formFuncion.setSelectedIndex(0);
 		this.formSeleccion.setSelectedIndex(1);
 		
@@ -452,7 +480,7 @@ public class InterfazGrafica extends JFrame
 		String s = "";
 		for (int i = primerIndice; i <= ultimoIndice; i++) {
 			s += 	"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
-					"Representa: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
+					"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
 					"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
 					"----------------------------------------------------- \n";
 		}
@@ -499,11 +527,18 @@ public class InterfazGrafica extends JFrame
 			labelMutacionesInvalido.setVisible(false);
 		}
 		
-		if ( !esNumeroReal(formTolerancia.getText()) ){
+		if ( formTolerancia.getText().equals("0") || !esNumeroReal(formTolerancia.getText()) ){
 			labelToleranciaInvalido.setVisible(true);
 			camposValidos = false;
 		} else {
 			labelToleranciaInvalido.setVisible(false);
+		}
+		
+		if ( formElitismo.getText().equals("AAA") ){ //TODO
+			labelElitismoInvalido.setVisible(true);
+			camposValidos = false;
+		} else {
+			labelElitismoInvalido.setVisible(false);
 		}
 		
 		return camposValidos;
@@ -518,10 +553,14 @@ public class InterfazGrafica extends JFrame
 	}
 	
 	/*
-	 * Comprueba que es un numero real y con el formato 0.X
+	 * Comprueba que es un numero real y con el formato 0.X o 0
 	 */
 	private boolean esNumeroReal(String s)  
 	{  
+	  if(s.equals("0")){
+		  return true;
+	  }
+		
 	  char[] cadena = s.toCharArray();
 	  // Formato 0.X
 	  if ( (cadena[0] != '0') || (cadena[1] != '.') ) {

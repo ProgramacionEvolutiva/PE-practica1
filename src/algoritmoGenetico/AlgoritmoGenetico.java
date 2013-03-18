@@ -25,6 +25,7 @@ public class AlgoritmoGenetico {
 	 * Busca: 
 	 *  - el mejor cromosoma obtenido tras todas las genraciones (Goku)
 	 *  - la lista de los mejores cromosomas en cada generacion (mejoresCromosomas)
+	 *  - los picos
 	 *  
 	 * @param parametros del problema
 	 */
