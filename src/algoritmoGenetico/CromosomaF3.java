@@ -41,7 +41,7 @@ public class CromosomaF3 extends Cromosoma
 		int longitud = calcularLongitud(tolerancia, xMax, xMin);
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
-		this.aptitud = evaluarCromosoma();
+		evaluarCromosoma();
 	}
 	
 	public CromosomaF3(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
@@ -56,11 +56,11 @@ public class CromosomaF3 extends Cromosoma
 	}
 
 	@Override
-	protected double evaluarCromosoma() {
+	protected void evaluarCromosoma() {
 		double x = fenotipo;
 		double resul=x*Math.sin(Math.sqrt(Math.abs(x)));
 		resul=Math.abs(resul);
-		return -resul;
+		this.aptitud =  -resul;
 	}
 
 }

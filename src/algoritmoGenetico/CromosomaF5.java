@@ -44,7 +44,7 @@ public class CromosomaF5 extends Cromosoma
 		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
 		fenotipo=fenotipos[0];
 		fenotipo2=fenotipos[1];	
-		this.aptitud = evaluarCromosoma();
+		evaluarCromosoma();
 	}
 	
 	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
@@ -58,7 +58,7 @@ public class CromosomaF5 extends Cromosoma
 	}
 
 	@Override
-	protected double evaluarCromosoma() {
+	protected void evaluarCromosoma() {
 		double x1 = this.getFenotipo();
 		double x2 = fenotipo2;
 		int resul1=0;
@@ -69,7 +69,7 @@ public class CromosomaF5 extends Cromosoma
 		for (int i=1; i<=5; i++){
 			resul2+=i*Math.cos((i+1)*x2+i);
 		}
-		return resul1*resul2;
+		this.aptitud =  resul1*resul2;
 	}
 
 }

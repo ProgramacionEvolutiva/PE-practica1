@@ -50,7 +50,7 @@ public class CromosomaF2 extends Cromosoma
 		double[] fenotipos=calcularFenotipos(longitud,xMax,xMin,yMax,yMin,longitudX,longitudY);
 		fenotipo=fenotipos[0];
 		fenotipo2=fenotipos[1];
-		this.aptitud = evaluarCromosoma();
+		evaluarCromosoma();
 	}
 
 	public CromosomaF2(boolean[] genes, double fenotipo, double fenotipo2, double aptitud, double puntuacion, double puntuacionAcumulada) 
@@ -73,11 +73,10 @@ public class CromosomaF2 extends Cromosoma
 	}
 
 	@Override
-	protected double evaluarCromosoma() {
+	protected void evaluarCromosoma() {
 		double x = this.fenotipo;
 		double y = this.fenotipo2;
 		double resul = 21.5 + x*Math.sin(4*Math.PI*x)+y*Math.sin(20*Math.PI*y);
-		return resul;
 	}
 
 }

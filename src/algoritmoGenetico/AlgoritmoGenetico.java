@@ -52,27 +52,21 @@ public class AlgoritmoGenetico {
 		switch(funcionSeleccionada) {
 			case 1:
 				this.longitudCromosoma = CromosomaF1.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF1(parametros.getTolerancia());
 				break;
 			case 2:
 				this.longitudCromosoma = CromosomaF2.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF2(parametros.getTolerancia());
 				break;
 			case 3:
 				this.longitudCromosoma = CromosomaF3.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF3(parametros.getTolerancia());
 				break;
 			case 4:
 				this.longitudCromosoma = CromosomaF4.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF4(parametros.getTolerancia());
 				break;
 			case 5:
 				this.longitudCromosoma = CromosomaF5.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF5(parametros.getTolerancia());
 				break;
 			default: 
 				this.longitudCromosoma = CromosomaF1.dameLongitud(parametros.getTolerancia());
-				mejor= new CromosomaF1(parametros.getTolerancia());
 		}
 		
 		Cromosoma[] elite = new Cromosoma[(int) (parametros.getTamPoblacion()*porcElite)];
@@ -80,7 +74,7 @@ public class AlgoritmoGenetico {
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
 		// 0) cogemos a la elite
-			elite = separaMejores(pob,porcElite);
+			//elite = separaMejores(pob,porcElite);
 			
 		// 1) seleccion
 			if (parametros.getSeleccion() == 0)
@@ -96,7 +90,7 @@ public class AlgoritmoGenetico {
 			mutacion(pob, parametros);
 			
 		// 4) volvemos a integrar a la elite			
-			incluye(elite,pob);
+			//incluye(elite,pob);
 			
 		// 5) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
@@ -112,7 +106,7 @@ public class AlgoritmoGenetico {
 			}
 			
 		// 6) guardar los resultados
-			mejoresCromosomas[i]=pob[pos_mejor];
+			mejoresCromosomas[i]=pob[pos_mejor].clone();
 			gokus[i]=mejor.clone();
 			medias[i]=calcularMedia(pob);
 			
@@ -291,7 +285,7 @@ public class AlgoritmoGenetico {
 		
 		// 5. Se cruzan los individuos elegidos en un punto al azar
 		for (int i=0; i<numSelCruce; i+=2){
-			puntoCruce = aleatorioEntre(0, longitudCromosoma);
+			puntoCruce = aleatorioEntre(0, longitudCromosoma - 1);
 			Cromosoma[] cromos = cruce(pob[selCruce[i]],pob[selCruce[i+1]],puntoCruce,parametros);
 			//los nuevos individuos sustituyen a sus progenitores
 			pob[selCruce[i]]=cromos[0];
@@ -314,7 +308,7 @@ public class AlgoritmoGenetico {
 				random = Math.random();
 				if (random < parametros.getProbMutacion()) {
 					pob[i].mutaGen(j);
-					pob[i].setAptitud(pob[i].evaluarCromosoma());
+					pob[i].evaluarCromosoma();
 				}
 			}
 		}

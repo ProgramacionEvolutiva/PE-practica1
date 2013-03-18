@@ -36,7 +36,7 @@ public abstract class Cromosoma {
 	public void setPuntuacionAcumulada(double puntuacionAcumulada) {this.puntuacionAcumulada = puntuacionAcumulada;}	
 	
 	/* Metodos declarados */
-	protected abstract double evaluarCromosoma();
+	protected abstract void evaluarCromosoma();
 	protected abstract Cromosoma clone();
 
 	

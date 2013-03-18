@@ -32,33 +32,38 @@ public class CromosomaF1 extends Cromosoma
 	private static final double xMax = 32.0;
 	private static final double xMin = 0.0;
 	
+	private int longitud;
+	
 	public static int dameLongitud(double tolerancia){
 		return calcularLongitud(tolerancia, xMax, xMin);
 	}
 	
 	public CromosomaF1(double tolerancia) 
 	{	
-		int longitud = calcularLongitud(tolerancia, xMax, xMin);
+		longitud = calcularLongitud(tolerancia, xMax, xMin);
 		this.genes = inicializarGenes(longitud);
-		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
-		this.aptitud = evaluarCromosoma();
+		// aptitud y fenotipo
+		evaluarCromosoma();
 	}
 	
 	public CromosomaF1(boolean[] genes, double fenotipo, double aptitud, double punt, double puntAcc)
 	{
 		super(genes, fenotipo, aptitud, punt ,puntAcc);
+		this.longitud = genes.length;
 	}
 	
 	/* Implementacion de metodos abstractos */
 	
 	@Override
-	protected double evaluarCromosoma() 
+	protected void evaluarCromosoma() 
 	{
+		fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		double x = this.fenotipo;
 		double exp = -0.2 * Math.abs(x);
 		double valor= Math.E *(-20*Math.pow(Math.E,exp));
 		valor-=Math.pow(Math.E, Math.cos(2*Math.PI*x));
-		return 20+valor;
+		valor = 20+valor;
+		this.aptitud = valor;
 	}	
 
 	@Override

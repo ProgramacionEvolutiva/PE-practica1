@@ -44,7 +44,7 @@ public class CromosomaF4 extends Cromosoma
 		int longitud = calcularLongitudConArray(tolerancia, xMax, xMin, n);
 		this.genes = inicializarGenes(longitud);
 		this.fenotipo2 = calcularFenotipo(longitud,xMax,xMin,n);
-		this.aptitud = evaluarCromosoma();
+		evaluarCromosoma();
 	}
 
 	public CromosomaF4(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
@@ -59,11 +59,11 @@ public class CromosomaF4 extends Cromosoma
 	}
 
 	@Override
-	protected double evaluarCromosoma() {
+	protected void evaluarCromosoma() {
        double sum = 0;
        for (int i=0; i<n; i++){
                sum -= (fenotipo2[i] * Math.sin(Math.sqrt(Math.abs(fenotipo2[i]))));
        }     
-       return (double) (sum);
+       this.aptitud =  (double) (sum);
 	}
 }
