@@ -11,6 +11,7 @@ package interfaz;
  *  | double | cruce 						| 0.6 					|
  *  | double | mutacion 					| 0.05 					|
  *  | double | tolerancia					| 0.01 					|
+ *  | double | elitismo 					| 0.0					|
  *  | int	 | funcion						| 1 					|
  *  | int    | seleccion					| 1 					|
  * Nota: llamar a la contructora vacia para asignar los valores por defecto 
@@ -26,6 +27,7 @@ public class Parametros {
 	public static final double PROB_CRUCE_DEFECTO = 0.6;
 	public static final double PROB_MUTACION_DEFECTO = 0.05;
 	public static final double TOLERANCIA_DEFECTO = 0.1;
+	public static final double ELITISMO_DEFECTO = 0.0;
 	public static final int FUNCION_DEFECTO = 1;
 	public static final int SELECCION_DEFECTO = 1;
 	
@@ -35,6 +37,7 @@ public class Parametros {
 	private double probCruce;
 	private double probMutacion;
 	private double tolerancia;
+	private double elitismo;
 	private int funcion;
 	private int seleccion;
 	
@@ -45,16 +48,18 @@ public class Parametros {
 	 * @param cruce
 	 * @param mutacion
 	 * @param tolerancia
+	 * @param elitismo
 	 * @param funcion
 	 * @param seleccion: 0 para torneo y 1 para ruleta. Cualquier otro valor se tomara un 1.
 	 */
-	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia, int funcion, int seleccion)
+	public Parametros (int tam, int generaciones, double cruce, double mutacion, double tolerancia, double elitismo, int funcion, int seleccion)
 	{
 		this.tamPoblacion = tam;
 		this.numGeneraciones = generaciones;
 		this.probCruce = cruce;
 		this.probMutacion = mutacion;
 		this.tolerancia = tolerancia;
+		this.elitismo = elitismo;
 		this.funcion = funcion;
 		if (estaContenido(seleccion)) {
 			this.seleccion = seleccion;
@@ -70,6 +75,7 @@ public class Parametros {
 		this.probCruce = PROB_CRUCE_DEFECTO;
 		this.probMutacion = PROB_MUTACION_DEFECTO;
 		this.tolerancia = TOLERANCIA_DEFECTO;
+		this.elitismo = ELITISMO_DEFECTO;
 		this.funcion = FUNCION_DEFECTO;
 		this.seleccion = SELECCION_DEFECTO;
 	}
@@ -85,6 +91,8 @@ public class Parametros {
 	public void setProbMutacion(double probMutacion) { this.probMutacion = probMutacion; }
 	public double getTolerancia() { return tolerancia; }
 	public void setTolerancia(double tolerancia) { this.tolerancia = tolerancia; }
+	public double getElitismo() { return this.elitismo; }
+	public void setElitismo(double elitismo) { this.elitismo = elitismo; }
 	public int getFuncion() { return funcion; }
 	public void setFuncion(int funcion) { this.funcion = funcion; }
 	public int getSeleccion() {return this.seleccion; }

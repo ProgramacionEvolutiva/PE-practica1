@@ -316,7 +316,7 @@ public class InterfazGrafica extends JFrame
 			labelElitismo = new JLabel("  Elitismo: ");
 			panelElitismo.add(labelElitismo);
 			panelElitismo.add(new JPanel()); // hueco intermedio
-			formElitismo = new JTextField("0"); // TODO: ELITISMO_DEFECTO en parametros
+			formElitismo = new JTextField(String.valueOf(Parametros.ELITISMO_DEFECTO)); 
 			panelElitismo.add(formElitismo);
 		panelFormulario.add(panelElitismo);
 		
@@ -467,7 +467,7 @@ public class InterfazGrafica extends JFrame
 		this.formCruce.setText(String.valueOf(Parametros.PROB_CRUCE_DEFECTO));
 		this.formMutacion.setText(String.valueOf(Parametros.PROB_MUTACION_DEFECTO));
 		this.formTolerancia.setText(String.valueOf(Parametros.TOLERANCIA_DEFECTO));
-		this.formElitismo.setText("0"); //FIXME: Parametros.ELITISMO_DEFECTO
+		this.formElitismo.setText(String.valueOf(Parametros.ELITISMO_DEFECTO)); 
 		this.formFuncion.setSelectedIndex(0);
 		this.formSeleccion.setSelectedIndex(1);
 		
@@ -476,16 +476,22 @@ public class InterfazGrafica extends JFrame
 	
 	private void mostrarDetallesCromosoma(int primerIndice, int ultimoIndice)
 	{
-		//TODO: Captar las lineas de cabecera
-		// FIXME: no funcionan bien los indices. 
-		String s = "";
-		for (int i = primerIndice; i <= ultimoIndice; i++) {
-			s += 	"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
-					"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
-					"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
-					"----------------------------------------------------- \n";
+		if ( (primerIndice < LINEAS_CABECERA)||(ultimoIndice < LINEAS_CABECERA) ){
+			areaInfo.setText("Detalles de los cromosomas\n");
+		} else {
+			// FIXME: no funcionan bien los indices. 
+			String s = "";
+			for (int i = primerIndice; i <= ultimoIndice; i++) {
+				s += 	"Genracion: " + info[i-LINEAS_CABECERA].generacion + "\n" + 
+						"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
+						"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
+						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
+						"----------------------------------------------------- \n";
+			}
+			areaInfo.setText(s);
 		}
-		areaInfo.setText(s);
+			
+		
 	}
 	
 	private void propiedadesBasicas()

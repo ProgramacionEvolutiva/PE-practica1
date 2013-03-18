@@ -40,7 +40,7 @@ public class AlgoritmoGenetico {
 		mejoresCromosomas = new Cromosoma[parametros.getNumGeneraciones()];
 		gokus = new Cromosoma[parametros.getNumGeneraciones()];
 		medias = new double[parametros.getNumGeneraciones()];
-		Cromosoma mejor;
+		Cromosoma mejor = null;
 		
 		// Informacion para las tablas
 		picos = new ArrayList<Cromosoma>();
@@ -52,29 +52,25 @@ public class AlgoritmoGenetico {
 		switch(funcionSeleccionada) {
 			case 1:
 				this.longitudCromosoma = CromosomaF1.longitud;
-				mejor= new CromosomaF1(parametros.getTolerancia());
 				break;
 			case 2:
 				this.longitudCromosoma = CromosomaF2.longitudX + CromosomaF2.longitudY;
-				mejor= new CromosomaF2(parametros.getTolerancia());
 				break;
 			case 3:
 				this.longitudCromosoma = CromosomaF3.longitud;
-				mejor= new CromosomaF3(parametros.getTolerancia());
 				break;
 			case 4:
 				this.longitudCromosoma = CromosomaF4.longitud;
-				mejor= new CromosomaF4(parametros.getTolerancia());
 				break;
 			case 5:
 				this.longitudCromosoma = CromosomaF5.longitud;
-				mejor= new CromosomaF5(parametros.getTolerancia());
 				break;
 			default: 
 				this.longitudCromosoma = CromosomaF1.longitud;
-				mejor= new CromosomaF1(parametros.getTolerancia());
 		}
+		
 		Cromosoma[] elite = new Cromosoma[(int) (parametros.getTamPoblacion()*porcElite)];
+		
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
 		// 0) cogemos a la elite
@@ -98,22 +94,23 @@ public class AlgoritmoGenetico {
 			
 		// 5) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);
-			if (pob[pos_mejor].getAptitudModificada() > mejor.getAptitudModificada()){
-				mejor=pob[pos_mejor].clone();
+			
+			if(i == 0){
+				// primera generacion: no esta inicializado <mejor> ni <picoAnterior>	
+				mejor = pob[pos_mejor].clone();
+				picoAnterior = mejor;
+			} else {
+				if (pob[pos_mejor].getAptitudModificada() > mejor.getAptitudModificada()){
+					mejor=pob[pos_mejor].clone();
+				}
 			}
 			
 		// 6) guardar los resultados
 			mejoresCromosomas[i]=pob[pos_mejor];
 			gokus[i]=mejor.clone();
 			medias[i]=calcularMedia(pob);
-			// primera vuelta => inicializar picoAnterior
-			if (i==0) {
-				picoAnterior = mejor.clone();
-				picos.add(mejor.clone());
-				generacionesPicos.add(i);
-			}
 			
-			if (picoAnterior.getAptitud() < mejoresCromosomas[i].getAptitud()) {
+			if (picoAnterior.getAptitudModificada() < mejoresCromosomas[i].getAptitudModificada()) {
 				picoAnterior = mejoresCromosomas[i];
 				picos.add(mejoresCromosomas[i].clone());
 				generacionesPicos.add(i);
