@@ -33,6 +33,7 @@ public class CromosomaF5 extends Cromosoma
 	private static final int xMin = -10;
 	
 	private double fenotipo2;	
+	private int longitud;
 	
 	public static int dameLongitud(double tolerancia){
 		return calcularLongitudConArray(tolerancia, xMax, xMin,2);
@@ -41,9 +42,6 @@ public class CromosomaF5 extends Cromosoma
 	public CromosomaF5(double tolerancia) {
 		int longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
 		this.genes = inicializarGenes(longitud);
-		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
-		fenotipo=fenotipos[0];
-		fenotipo2=fenotipos[1];	
 		evaluarCromosoma();
 	}
 	
@@ -59,6 +57,9 @@ public class CromosomaF5 extends Cromosoma
 
 	@Override
 	protected void evaluarCromosoma() {
+		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
+		fenotipo=fenotipos[0];
+		fenotipo2=fenotipos[1];	
 		double x1 = this.getFenotipo();
 		double x2 = fenotipo2;
 		int resul1=0;

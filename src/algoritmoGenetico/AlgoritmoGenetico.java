@@ -87,7 +87,7 @@ public class AlgoritmoGenetico {
 			pob = reproduccion(pob, parametros);
 			
 		// 3) mutacion
-			mutacion(pob, parametros);
+			pob = mutacion(pob, parametros);
 			
 		// 4) volvemos a integrar a la elite			
 			//incluye(elite,pob);
@@ -300,18 +300,23 @@ public class AlgoritmoGenetico {
 	 * @param poblacion
 	 * @param paramametros del problema
 	 */
-	private void mutacion(Cromosoma[] pob, Parametros parametros)
+	private Cromosoma[] mutacion(Cromosoma[] pob, Parametros parametros)
 	{
+		Cromosoma[] pobMutante = new Cromosoma[parametros.getTamPoblacion()];
+		
 		double random;
 		for (int i = 0; i < parametros.getTamPoblacion(); i++) {
+			pobMutante[i] = pob[i].clone();
 			for (int j = 0; j < longitudCromosoma; j++) {
 				random = Math.random();
 				if (random < parametros.getProbMutacion()) {
-					pob[i].mutaGen(j);
-					pob[i].evaluarCromosoma();
+					pobMutante[i].mutaGen(j);
+					pobMutante[i].evaluarCromosoma();
 				}
 			}
 		}
+		
+		return pobMutante;
 		
 	}
 

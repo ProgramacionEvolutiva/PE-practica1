@@ -35,7 +35,10 @@ public class CromosomaF2 extends Cromosoma
 	private static final double yMin = 4.1;
 	
 	private double fenotipo2;	
-
+	private int longitud;
+	private int longitudX;
+	private int longitudY;
+	
 	public static int dameLongitud(double tolerancia){
 		return calcularLongitud(tolerancia, xMax, xMin, yMax, yMin)[2];
 	}
@@ -43,13 +46,10 @@ public class CromosomaF2 extends Cromosoma
 	public CromosomaF2(double tolerancia) 
 	{	
 		int[] longs = calcularLongitud(tolerancia, xMax, xMin, yMax, yMin);
-		int longitudX=longs[0];
-		int longitudY=longs[1];
-		int longitud=longs[2];
+		longitudX=longs[0];
+		longitudY=longs[1];
+		longitud=longs[2];
 		this.genes = inicializarGenes(longitud);
-		double[] fenotipos=calcularFenotipos(longitud,xMax,xMin,yMax,yMin,longitudX,longitudY);
-		fenotipo=fenotipos[0];
-		fenotipo2=fenotipos[1];
 		evaluarCromosoma();
 	}
 
@@ -74,9 +74,12 @@ public class CromosomaF2 extends Cromosoma
 
 	@Override
 	protected void evaluarCromosoma() {
+		double[] fenotipos=calcularFenotipos(longitud,xMax,xMin,yMax,yMin,longitudX,longitudY);
+		fenotipo=fenotipos[0];
+		fenotipo2=fenotipos[1];
 		double x = this.fenotipo;
 		double y = this.fenotipo2;
-		double resul = 21.5 + x*Math.sin(4*Math.PI*x)+y*Math.sin(20*Math.PI*y);
+		this.aptitud = 21.5 + x*Math.sin(4*Math.PI*x)+y*Math.sin(20*Math.PI*y);
 	}
 
 }

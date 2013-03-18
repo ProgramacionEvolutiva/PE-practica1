@@ -32,15 +32,16 @@ public class CromosomaF3 extends Cromosoma
 	private static final int xMax = 250;
 	private static final int xMin = -250;
 		
+	private int longitud;
+	
 	public static int dameLongitud(double tolerancia){
 		return calcularLongitud(tolerancia, xMax, xMin);
 	}
 	
 	public CromosomaF3(double tolerancia) 
 	{	
-		int longitud = calcularLongitud(tolerancia, xMax, xMin);
+		longitud = calcularLongitud(tolerancia, xMax, xMin);
 		this.genes = inicializarGenes(longitud);
-		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		evaluarCromosoma();
 	}
 	
@@ -57,6 +58,7 @@ public class CromosomaF3 extends Cromosoma
 
 	@Override
 	protected void evaluarCromosoma() {
+		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		double x = fenotipo;
 		double resul=x*Math.sin(Math.sqrt(Math.abs(x)));
 		resul=Math.abs(resul);
