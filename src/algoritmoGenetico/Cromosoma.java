@@ -12,7 +12,6 @@ public abstract class Cromosoma {
 	protected double aptitud;
 	protected double puntuacion;
 	protected double puntuacionAcumulada;
-	protected int longitud;
 	
 	/* Constructoras */
 	public Cromosoma(){}
@@ -35,8 +34,6 @@ public abstract class Cromosoma {
 	public void setPuntuacion(double puntuacion) {this.puntuacion = puntuacion;}	
 	public double getPuntuacionAcumulada() {return puntuacionAcumulada;}
 	public void setPuntuacionAcumulada(double puntuacionAcumulada) {this.puntuacionAcumulada = puntuacionAcumulada;}	
-	public int getLongitud() {return longitud;}
-	public void setLongitud(int longitud) {this.longitud = longitud;}
 	
 	/* Metodos declarados */
 	protected abstract double evaluarCromosoma();
@@ -79,7 +76,7 @@ public abstract class Cromosoma {
 	 * @param valor minimo del intervalo
 	 * @return longitud de los cromosomas
 	 */
-	protected int calcularLongitud(double tolerancia, double xMax, double xMin)
+	protected static int calcularLongitud(double tolerancia, double xMax, double xMin)
 	{
 		double aux = 1 + ( (xMax - xMin) / tolerancia);	
 		aux = (Math.log(aux) / Math.log(2));
@@ -99,7 +96,7 @@ public abstract class Cromosoma {
 	 * @param valor minimo del intervalo de y
 	 * @return longitud de los cromosomas
 	 */
-	protected int[] calcularLongitud(double tolerancia, double xMax, double xMin, double yMax, double yMin) 
+	protected static int[] calcularLongitud(double tolerancia, double xMax, double xMin, double yMax, double yMin) 
 	{
 		int[] longs = new int[3];
 		double longx = 1 + ( (xMax - xMin) / tolerancia);	
@@ -128,7 +125,7 @@ public abstract class Cromosoma {
 	 * @param n
 	 * @return longitud de los cromosomas
 	 */
-	protected int calcularLongitudConArray(double tolerancia, int xMax,
+	protected static int calcularLongitudConArray(double tolerancia, int xMax,
 			int xMin, int n) {
 		double aux = 1 + ( (xMax - xMin) / tolerancia);	
 		aux = (Math.log(aux) / Math.log(2));

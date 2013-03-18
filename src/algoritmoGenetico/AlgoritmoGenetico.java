@@ -50,27 +50,27 @@ public class AlgoritmoGenetico {
 		int funcionSeleccionada = parametros.getFuncion();
 		switch(funcionSeleccionada) {
 			case 1:
-				this.longitudCromosoma = CromosomaF1.longitud;
+				this.longitudCromosoma = CromosomaF1.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF1(parametros.getTolerancia());
 				break;
 			case 2:
-				this.longitudCromosoma = CromosomaF2.longitudX + CromosomaF2.longitudY;
+				this.longitudCromosoma = CromosomaF2.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF2(parametros.getTolerancia());
 				break;
 			case 3:
-				this.longitudCromosoma = CromosomaF3.longitud;
+				this.longitudCromosoma = CromosomaF3.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF3(parametros.getTolerancia());
 				break;
 			case 4:
-				this.longitudCromosoma = CromosomaF4.longitud;
+				this.longitudCromosoma = CromosomaF4.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF4(parametros.getTolerancia());
 				break;
 			case 5:
-				this.longitudCromosoma = CromosomaF5.longitud;
+				this.longitudCromosoma = CromosomaF5.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF5(parametros.getTolerancia());
 				break;
 			default: 
-				this.longitudCromosoma = CromosomaF1.longitud;
+				this.longitudCromosoma = CromosomaF1.dameLongitud(parametros.getTolerancia());
 				mejor= new CromosomaF1(parametros.getTolerancia());
 		}
 		Cromosoma[] elite = new Cromosoma[(int) (parametros.getTamPoblacion()*porcElite)];
@@ -355,8 +355,6 @@ public class AlgoritmoGenetico {
 				hija = new CromosomaF5(parametros.getTolerancia());
 				break;
 		}
-		hijo.inicializarGenes(padre.getLongitud());
-		hija.inicializarGenes(madre.getLongitud());
 		
 		// primera parte del intercambio: 
 		// copiar progenitor desde el principio hasta el punto de cruce
@@ -369,7 +367,7 @@ public class AlgoritmoGenetico {
 		// segunda parte del intercambio:
 		// copiar desde el punto de cruce hasta el final del otro progenitor
 		
-		for (int i = puntoCruce; i <= padre.getLongitud(); i++){
+		for (int i = puntoCruce; i < longitudCromosoma; i++){
 			hija.setGen(i, padre.getGenes()[i]);
 			hijo.setGen(i, madre.getGenes()[i]);
 		}

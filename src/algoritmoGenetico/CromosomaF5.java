@@ -32,16 +32,14 @@ public class CromosomaF5 extends Cromosoma
 	private static final int xMax = 10;
 	private static final int xMin = -10;
 	
-	public static int longitud = -1;
-	public static int longitudX = -1;
-	
 	private double fenotipo2;	
 	
+	public static int dameLongitud(double tolerancia){
+		return calcularLongitudConArray(tolerancia, xMax, xMin,2);
+	}
+	
 	public CromosomaF5(double tolerancia) {
-		if (longitud == -1) {
-			longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
-			longitudX = longitud/2;
-		}
+		int longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
 		this.genes = inicializarGenes(longitud);
 		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
 		fenotipo=fenotipos[0];
