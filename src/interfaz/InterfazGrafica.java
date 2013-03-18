@@ -416,7 +416,7 @@ public class InterfazGrafica extends JFrame
 		panelSelector.addTab("Detalles", null, panelInfoCromosomas, null);
 	}
 	
-	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores)
+	private void obtenerResultados(double[] aptitudesMejores, double[] gokusMejores, double[] medias)
 	{
 		// borrar la grafica anterior
 		panelResultados.removeAllPlots();
@@ -428,8 +428,9 @@ public class InterfazGrafica extends JFrame
 		// definir la layenda de datos
 		panelResultados.addLegend("SOUTH");
 		// dibujar la grafica
-		panelResultados.addLinePlot("Cromosoma mejor de cada generaci—n", x, aptitudesMejores);
+		panelResultados.addLinePlot("Cromosoma mejor de cada generación", x, aptitudesMejores);
 		panelResultados.addLinePlot("Cromosoma mejor encontrado", x, gokusMejores);
+		panelResultados.addLinePlot("Media de cada generación", x, medias);
 	}
 	
 	private void obtenerTabla()
@@ -583,11 +584,11 @@ public class InterfazGrafica extends JFrame
 	 * @param gokusMejores
 	 * @param picos
 	 */
-	public void mostrar( double[] aptitudesMejores, double[] gokusMejores, Info[] infoMostrar)
+	public void mostrar( double[] aptitudesMejores, double[] gokusMejores, double[] medias, Info[] infoMostrar)
 	{
 		// XXX
 		this.info = infoMostrar;
-		obtenerResultados(aptitudesMejores,gokusMejores);
+		obtenerResultados(aptitudesMejores,gokusMejores, medias);
 		obtenerTabla();
 	}
 }

@@ -39,21 +39,24 @@ public class CromosomaF5 extends Cromosoma
 	
 	public CromosomaF5(double tolerancia) {
 		if (longitud == -1) {
-			longitud = calcularLongitud(tolerancia, xMax, xMin, xMax, xMin, longitudX, longitudX);
+			longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
+			longitudX = longitud/2;
 		}
 		this.genes = inicializarGenes(longitud);
-		this.fenotipo = calcularFenotipo(longitud,xMax,xMin);
+		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
+		fenotipo=fenotipos[0];
+		fenotipo2=fenotipos[1];	
 		this.aptitud = evaluarCromosoma();
 	}
 	
-	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacionAcumulada) 
+	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
-		super(genes,fenotipo,aptitud,puntuacionAcumulada);
+		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
 	}
 
 	@Override
 	protected Cromosoma clone() {
-		return new CromosomaF5(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacionAcumulada());	
+		return new CromosomaF5(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());	
 	}
 
 	@Override
