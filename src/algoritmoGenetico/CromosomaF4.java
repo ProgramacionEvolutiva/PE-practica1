@@ -47,15 +47,17 @@ public class CromosomaF4 extends Cromosoma
 		evaluarCromosoma();
 	}
 
-	public CromosomaF4(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
+	public CromosomaF4(boolean[] genes, double fenotipo, double[] fenotipo2, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
 		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
+		this.longitud=genes.length;
+		this.fenotipo2=fenotipo2;
 	}
 
 	@Override
 	protected Cromosoma clone()
 	{
-		return new CromosomaF4(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());	
+		return new CromosomaF4(this.getGenes().clone(),this.getFenotipo(),this.fenotipo2,this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());	
 	}
 
 	@Override

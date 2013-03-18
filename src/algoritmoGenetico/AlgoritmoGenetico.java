@@ -74,7 +74,7 @@ public class AlgoritmoGenetico {
 		// bucle de evolucion
 		for (int i = 0; i < parametros.getNumGeneraciones(); i++) {
 		// 0) cogemos a la elite
-			//elite = separaMejores(pob,porcElite);
+			elite = separaMejores(pob,porcElite);
 			
 		// 1) seleccion
 			if (parametros.getSeleccion() == 0)
@@ -90,7 +90,7 @@ public class AlgoritmoGenetico {
 			pob = mutacion(pob, parametros);
 			
 		// 4) volvemos a integrar a la elite			
-			//incluye(elite,pob);
+			incluye(elite,pob);
 			
 		// 5) tratar la nueva solucion
 			pos_mejor = evaluarPoblacion(pob);

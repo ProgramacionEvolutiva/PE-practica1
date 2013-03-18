@@ -40,7 +40,7 @@ public class CromosomaF5 extends Cromosoma
 	}
 	
 	public CromosomaF5(double tolerancia) {
-		int longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
+		this.longitud = calcularLongitudConArray(tolerancia, xMax, xMin,2);
 		this.genes = inicializarGenes(longitud);
 		evaluarCromosoma();
 	}
@@ -48,6 +48,7 @@ public class CromosomaF5 extends Cromosoma
 	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
 		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
+		this.longitud=genes.length;
 	}
 
 	@Override

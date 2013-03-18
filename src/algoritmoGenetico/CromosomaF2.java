@@ -53,10 +53,13 @@ public class CromosomaF2 extends Cromosoma
 		evaluarCromosoma();
 	}
 
-	public CromosomaF2(boolean[] genes, double fenotipo, double fenotipo2, double aptitud, double puntuacion, double puntuacionAcumulada) 
+	public CromosomaF2(boolean[] genes, double fenotipo, double fenotipo2, double aptitud, double puntuacion, double puntuacionAcumulada, int longitud, int longitudX, int longitudY) 
 	{
 		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
 		this.fenotipo2=fenotipo2;
+		this.longitudX=longitudX;
+		this.longitudY=longitudY;
+		this.longitud=longitud;
 	}
 	
 	public double getFenotipo2() {
@@ -69,7 +72,7 @@ public class CromosomaF2 extends Cromosoma
 
 	@Override
 	protected Cromosoma clone() {
-		return new CromosomaF2(this.getGenes().clone(),this.getFenotipo(),this.getFenotipo2(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());
+		return new CromosomaF2(this.getGenes().clone(),this.getFenotipo(),this.getFenotipo2(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada(),this.longitud,this.longitudX,this.longitudY);
 	}
 
 	@Override

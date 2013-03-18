@@ -48,6 +48,7 @@ public class CromosomaF3 extends Cromosoma
 	public CromosomaF3(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
 		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
+		this.longitud = genes.length;
 	}
 
 	@Override
