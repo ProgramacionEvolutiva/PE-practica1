@@ -22,11 +22,11 @@ public class Parametros {
 	private int[] valoresSeleccion = {0,1};
 	
 	/* Valores por defecto */
-	public static final int TAM_POBLACION_DEFECTO = 4;
-	public static final int NUM_GENERACIONES_DEFECTO = 4;
-	public static final double PROB_CRUCE_DEFECTO = 0.6;
-	public static final double PROB_MUTACION_DEFECTO = 0.05;
-	public static final double TOLERANCIA_DEFECTO = 0.1;
+	public static final int TAM_POBLACION_DEFECTO = 20;
+	public static final int NUM_GENERACIONES_DEFECTO = 50;
+	public static final double PROB_CRUCE_DEFECTO = 0.7;
+	public static final double PROB_MUTACION_DEFECTO = 0.1;
+	public static final double TOLERANCIA_DEFECTO = 0.05;
 	public static final double ELITISMO_DEFECTO = 0.0;
 	public static final int FUNCION_DEFECTO = 1;
 	public static final int SELECCION_DEFECTO = 1;

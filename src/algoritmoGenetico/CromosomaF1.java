@@ -38,6 +38,13 @@ public class CromosomaF1 extends Cromosoma
 		return calcularLongitud(tolerancia, xMax, xMin);
 	}
 	
+	public CromosomaF1(boolean[] genes)
+	{
+		this.longitud = genes.length;
+		this.genes = genes;
+		evaluarCromosoma();
+	}
+	
 	public CromosomaF1(double tolerancia) 
 	{	
 		longitud = calcularLongitud(tolerancia, xMax, xMin);

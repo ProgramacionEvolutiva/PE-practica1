@@ -449,7 +449,7 @@ public class InterfazGrafica extends JFrame
 		for(int i = 0; i < info.length; i++) {
 			datos[i + LINEAS_CABECERA] = new String(
 					"generacion: " + info[i].generacion +
-					"\t\t fenotipo: " + String.valueOf(info[i].aptitud)
+					"\n aptitud: " + String.valueOf(info[i].aptitud)
 					);
 		}
 		
@@ -492,8 +492,7 @@ public class InterfazGrafica extends JFrame
 				s += 	"Generacion: " + info[i-LINEAS_CABECERA].generacion + "\n" + 
 						"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
 						"Fenotipo: " + muestraFenotipo(info[i-LINEAS_CABECERA]) + "\n" + 
-						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
-						"----------------------------------------------------- \n";
+						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n";
 			}
 			areaInfo.setText(s);
 		}

@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * Clase que implementa el algoritmo genetico principal
  * 
  */
-public class AlgoritmoGenetico {
+public class AlgoritmoGenetico 
+{
 	private int longitudCromosoma;
 
 	// Informacion para las graficas
