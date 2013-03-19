@@ -167,22 +167,23 @@ public abstract class Cromosoma {
 	 * @param fenotipo de Y
 	 */
 	protected double[] calcularFenotipos(int longitud, double xMax, double xMin,
-			double yMax, double yMin, int longitudX, int longitudY) {
+			double yMax, double yMin, int longitudX, int longitudY) 
+	{
 
 		String s = this.toString();
 		s = s.substring(0, longitudX);
-		int a = Integer.parseInt(s, 2);
-		double b = xMin + (xMax - xMin);
-		b = b * a;
-		double c = (Math.pow(2,longitudX) - 1);
-		double fenotipoX = b / c;
+		int valor_decimal = Integer.parseInt(s, 2);
+		double aux = (xMax - xMin) * valor_decimal;
+		aux = aux / ( Math.pow(2,longitudX) - 1 );
+		double fenotipoX = aux + xMin;
+		
 		s = this.toString();
-		s = s.substring(longitudX+1,longitud);
-		a = Integer.parseInt(s, 2);
-		b = xMin + (xMax - xMin);
-		b = b * a;
-		c = (Math.pow(2,longitudY) - 1);
-		double fenotipoY = b / c;
+		s = s.substring(longitudX,longitud);
+		valor_decimal = Integer.parseInt(s, 2);
+		aux = (yMax - yMin) * valor_decimal;
+		aux = aux / (Math.pow(2, longitudY) - 1);
+		double fenotipoY = aux + yMin;
+		
 		double fenotipo[] = new double[2];
 		fenotipo[0]=fenotipoX;
 		fenotipo[1]=fenotipoY;

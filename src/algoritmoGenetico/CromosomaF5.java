@@ -67,7 +67,8 @@ public class CromosomaF5 extends Cromosoma
 
 	@Override
 	protected void evaluarCromosoma() {
-		double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
+		//double[] fenotipos=calcularFenotipo(longitud, xMax, xMin, 2);	
+		double[] fenotipos = calcularFenotipos(longitud, xMax, xMin, xMax, xMin, longitud/2, longitud/2);
 		fenotipo=fenotipos[0];
 		fenotipo2=fenotipos[1];	
 		double x1 = this.getFenotipo();
