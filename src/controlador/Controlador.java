@@ -63,14 +63,14 @@ public class Controlador
 		interfaz.mostrar(aptitudesMejores, aptitudesGokus, genetico.getMedias(), info);
 	}
 	
-	public static void main(String[] args)
+	public static void _main(String[] args)
 	{
 		boolean[] genes = {true, true, false, false, false, true, false, true, true,false,false,false,true, true,true, false, true, true};
 		Cromosoma c = new CromosomaF5(genes);
 	}
 	
 	/* Main */
-	public static void _main (String[] args)
+	public static void main (String[] args)
 	{
 		Controlador controlador = new Controlador();
 		controlador.inicializar();

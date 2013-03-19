@@ -75,11 +75,11 @@ public class CromosomaF5 extends Cromosoma
 		double x2 = fenotipo2;
 		int resul1=0;
 		for (int i=1; i<=5; i++){
-			resul1+=i*Math.cos((i+1)*x1+i);
+			resul1 += i*Math.cos((i+1)*x1+i);
 		}
 		int resul2=0;
 		for (int i=1; i<=5; i++){
-			resul2+=i*Math.cos((i+1)*x2+i);
+			resul2 += i*Math.cos((i+1)*x2+i);
 		}
 		this.aptitud =  resul1*resul2;
 	}
