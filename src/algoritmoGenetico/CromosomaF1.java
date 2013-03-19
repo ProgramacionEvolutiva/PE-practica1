@@ -38,6 +38,13 @@ public class CromosomaF1 extends Cromosoma
 		return calcularLongitud(tolerancia, xMax, xMin);
 	}
 	
+	public CromosomaF1(boolean[] genes)
+	{
+		this.longitud = genes.length;
+		this.genes = genes;
+		evaluarCromosoma();
+	}
+	
 	public CromosomaF1(double tolerancia) 
 	{	
 		longitud = calcularLongitud(tolerancia, xMax, xMin);
@@ -57,13 +64,13 @@ public class CromosomaF1 extends Cromosoma
 	@Override
 	protected void evaluarCromosoma() 
 	{
-		fenotipo = calcularFenotipo(longitud,xMax,xMin);
-		double x = this.fenotipo;
-		double exp = -0.2 * Math.abs(x);
-		double valor= Math.E *(-20*Math.pow(Math.E,exp));
-		valor-=Math.pow(Math.E, Math.cos(2*Math.PI*x));
-		valor = 20+valor;
-		this.aptitud = valor;
+		  fenotipo = calcularFenotipo(longitud,xMax,xMin);
+		  double x = this.fenotipo;
+		  double exp = -0.2 * Math.abs(x);
+		  double valor= Math.E +(-20*Math.pow(Math.E,exp));
+		  valor-=Math.pow(Math.E, Math.cos(2*Math.PI*x));
+		  valor = 20+valor;
+		  this.aptitud = valor;
 	}	
 
 	@Override

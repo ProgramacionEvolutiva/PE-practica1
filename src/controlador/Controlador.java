@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.Cromosoma;
+import algoritmoGenetico.CromosomaF1;
 
 public class Controlador
 {
@@ -60,7 +61,6 @@ public class Controlador
 		// mostrar(lineaBase, lineaRoja, tablaSuperior, tablaInferior)
 		interfaz.mostrar(aptitudesMejores, aptitudesGokus, genetico.getMedias(), info);
 	}
-	
 	
 	/* Main */
 	public static void main (String[] args)

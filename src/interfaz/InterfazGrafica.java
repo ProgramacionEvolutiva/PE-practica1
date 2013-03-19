@@ -442,7 +442,7 @@ public class InterfazGrafica extends JFrame
 		for(int i = 0; i < info.length; i++) {
 			datos[i + LINEAS_CABECERA] = new String(
 					"generacion: " + info[i].generacion +
-					"\t\t fenotipo: " + String.valueOf(info[i].aptitud)
+					"\naptitud: " + String.valueOf(info[i].aptitud)
 					);
 		}
 		
@@ -482,10 +482,10 @@ public class InterfazGrafica extends JFrame
 			// FIXME: no funcionan bien los indices. 
 			String s = "";
 			for (int i = primerIndice; i <= ultimoIndice; i++) {
-				s += 	"Genracion: " + info[i-LINEAS_CABECERA].generacion + "\n" + 
-						"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
-						"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
-						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
+				s += 	"Genracion: " + info[i-LINEAS_CABECERA].generacion  + 
+						"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + 
+						"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo  + 
+						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud  +
 						"----------------------------------------------------- \n";
 			}
 			areaInfo.setText(s);

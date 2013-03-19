@@ -8,7 +8,8 @@ import java.util.ArrayList;
  * Clase que implementa el algoritmo genetico principal
  * 
  */
-public class AlgoritmoGenetico {
+public class AlgoritmoGenetico 
+{
 	private int longitudCromosoma;
 
 	// Informacion para las graficas
@@ -30,8 +31,7 @@ public class AlgoritmoGenetico {
 	 * @param parametros del problema
 	 */
 	public void algoritmo_genetico(Parametros parametros) {
-		//TODO: poner esta variable como uno de los atributos
-		double porcElite = 0.04;
+		double porcElite = parametros.getElitismo();
 		// Obtenemos la poblacion inicial 
 		Cromosoma[] pob = poblacion_inicial(parametros); 
 		int pos_mejor = evaluarPoblacion(pob);	
