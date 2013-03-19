@@ -52,16 +52,17 @@ public class CromosomaF5 extends Cromosoma
 		this.longitud = genes.length;
 		evaluarCromosoma();
 	}
-	
-	public CromosomaF5(boolean[] genes, double fenotipo, double aptitud, double puntuacion, double puntuacionAcumulada) 
+
+	public CromosomaF5(boolean[] genes, double fenotipo, double fenotipo2 ,double aptitud, double puntuacion, double puntuacionAcumulada) 
 	{
 		super(genes,fenotipo,aptitud,puntuacion,puntuacionAcumulada);
+		this.fenotipo2=fenotipo2;
 		this.longitud=genes.length;
 	}
 
 	@Override
 	protected Cromosoma clone() {
-		return new CromosomaF5(this.getGenes().clone(),this.getFenotipo(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());	
+		return new CromosomaF5(this.getGenes().clone(),this.getFenotipo(),this.getFenotipo2(),this.getAptitud(),this.getPuntuacion(),this.getPuntuacionAcumulada());	
 	}
 
 	@Override
