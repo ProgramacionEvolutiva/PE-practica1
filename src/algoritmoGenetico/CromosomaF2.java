@@ -82,7 +82,7 @@ public class CromosomaF2 extends Cromosoma
 		fenotipo2=fenotipos[1];
 		double x = this.fenotipo;
 		double y = this.fenotipo2;
-		this.aptitud = 21.5 + x*Math.sin(4*Math.PI*x)+y*Math.sin(20*Math.PI*y);
+		this.aptitud = 21.5 + (x*Math.sin(4*Math.PI*x))+(y*Math.sin(20*Math.PI*y));
 	}
 
 }

@@ -1,5 +1,7 @@
 package interfaz;
 
+import algoritmoGenetico.Cromosoma;
+
 /**
  * Estructura con la siguiente info
  * 
@@ -14,12 +16,14 @@ public class Info
 	public String cadena;
 	public double fenotipo;
 	public double aptitud;
+	public Cromosoma cromosoma;
 	
-	public Info (int generacion, String cadena, double fenotipo, double aptitud)
+	public Info (int generacion, String cadena, double fenotipo, double aptitud, Cromosoma cromosoma)
 	{
 		this.generacion = generacion;
 		this.cadena = cadena;
 		this.fenotipo = fenotipo;
 		this.aptitud = aptitud;
+		this.cromosoma = cromosoma;
 	}
 }

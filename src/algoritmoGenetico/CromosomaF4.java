@@ -31,7 +31,7 @@ public class CromosomaF4 extends Cromosoma
 {
 	private static final int xMax = 100;
 	private static final int xMin = 0;
-	private static int n=1;
+	public static int n=1;
 	
 	private int longitud;
 	private double[] fenotipo2;
@@ -68,5 +68,9 @@ public class CromosomaF4 extends Cromosoma
                sum -= (fenotipo2[i] * Math.sin(Math.sqrt(Math.abs(fenotipo2[i]))));
         }     
         this.aptitud =  (double) (sum);
+	}
+
+	public double[] getFenotipo2() {
+		return fenotipo2;
 	}
 }

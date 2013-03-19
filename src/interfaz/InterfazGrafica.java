@@ -26,6 +26,13 @@ import javax.swing.event.ListSelectionListener;
 
 import org.math.plot.Plot2DPanel;
 
+import algoritmoGenetico.Cromosoma;
+import algoritmoGenetico.CromosomaF1;
+import algoritmoGenetico.CromosomaF2;
+import algoritmoGenetico.CromosomaF3;
+import algoritmoGenetico.CromosomaF4;
+import algoritmoGenetico.CromosomaF5;
+
 import controlador.Controlador;
 
 
@@ -482,16 +489,35 @@ public class InterfazGrafica extends JFrame
 			// FIXME: no funcionan bien los indices. 
 			String s = "";
 			for (int i = primerIndice; i <= ultimoIndice; i++) {
-				s += 	"Genracion: " + info[i-LINEAS_CABECERA].generacion + "\n" + 
+				s += 	"Generacion: " + info[i-LINEAS_CABECERA].generacion + "\n" + 
 						"Cromosoma: " + info[i-LINEAS_CABECERA].cadena + "\n" + 
-						"Fenotipo: " + info[i-LINEAS_CABECERA].fenotipo + "\n" + 
+						"Fenotipo: " + muestraFenotipo(info[i-LINEAS_CABECERA]) + "\n" + 
 						"Aptitud: " + info[i-LINEAS_CABECERA].aptitud + "\n" +
 						"----------------------------------------------------- \n";
 			}
 			areaInfo.setText(s);
 		}
-			
-		
+				
+	}
+	
+	private String muestraFenotipo(Info info) {
+		Cromosoma c=info.cromosoma;
+		String s="";
+		if ((c instanceof CromosomaF1) || (c instanceof CromosomaF3)){
+			s="\n"+"\t x="+c.getFenotipo();
+		}
+		if (c instanceof CromosomaF2){
+			s="\n"+"\t x="+c.getFenotipo()+"\n"+"\t y="+((CromosomaF2) c).getFenotipo2();
+		}
+		if (c instanceof CromosomaF4){
+			CromosomaF4 c4 = (CromosomaF4) c;
+			for (int i=0;i<CromosomaF4.n;i++)
+			s="\n"+"\t x"+i+"="+c4.getFenotipo2()[i]+"\n";
+		}
+		if (c instanceof CromosomaF5){
+			s="\n"+"\t x1="+c.getFenotipo()+"\n"+"\t x2="+((CromosomaF5) c).getFenotipo2();
+		}
+		return s;
 	}
 	
 	private void propiedadesBasicas()

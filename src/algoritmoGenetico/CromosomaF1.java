@@ -60,7 +60,7 @@ public class CromosomaF1 extends Cromosoma
 		fenotipo = calcularFenotipo(longitud,xMax,xMin);
 		double x = this.fenotipo;
 		double exp = -0.2 * Math.abs(x);
-		double valor= Math.E *(-20*Math.pow(Math.E,exp));
+		double valor= Math.E +(-20*Math.pow(Math.E,exp));
 		valor-=Math.pow(Math.E, Math.cos(2*Math.PI*x));
 		valor = 20+valor;
 		this.aptitud = valor;

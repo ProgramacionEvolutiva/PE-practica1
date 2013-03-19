@@ -53,7 +53,7 @@ public class Controlador
 		//for(variable : estructura) FIXME: eliminar los iteradores
 		while(itGeneraciones.hasNext()) {
 			cromosomaActual = itPicos.next();
-			info[i] = new Info(itGeneraciones.next().intValue(), cromosomaActual.toString(), cromosomaActual.getFenotipo(), cromosomaActual.getAptitud());
+			info[i] = new Info(itGeneraciones.next().intValue(), cromosomaActual.toString(), cromosomaActual.getFenotipo(), cromosomaActual.getAptitud(), cromosomaActual);
 			i++;
 		}
 				

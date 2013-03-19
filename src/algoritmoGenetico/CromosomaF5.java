@@ -73,5 +73,9 @@ public class CromosomaF5 extends Cromosoma
 		}
 		this.aptitud =  resul1*resul2;
 	}
+	
+	public double getFenotipo2() {
+		return fenotipo2;
+	}
 
 }
