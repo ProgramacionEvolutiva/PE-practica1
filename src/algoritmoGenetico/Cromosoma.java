@@ -210,7 +210,7 @@ public abstract class Cromosoma {
 		for (int i=0; i<n; i++)
 		{
 			s = this.toString();
-			s = s.substring(lon*i, lon*(i+1)-1);
+			s = s.substring(lon*i, lon*(i+1));
 			a = Integer.parseInt(s, 2);
 			b = xMin + (xMax - xMin);
 			b = b * a;

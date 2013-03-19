@@ -9,6 +9,7 @@ import java.util.Iterator;
 import algoritmoGenetico.AlgoritmoGenetico;
 import algoritmoGenetico.Cromosoma;
 import algoritmoGenetico.CromosomaF1;
+import algoritmoGenetico.CromosomaF5;
 
 public class Controlador
 {
@@ -62,8 +63,14 @@ public class Controlador
 		interfaz.mostrar(aptitudesMejores, aptitudesGokus, genetico.getMedias(), info);
 	}
 	
+	public static void main(String[] args)
+	{
+		boolean[] genes = {true, true, false, false, false, true, false, true, true,false,false,false,true, true,true, false, true, true};
+		Cromosoma c = new CromosomaF5(genes);
+	}
+	
 	/* Main */
-	public static void main (String[] args)
+	public static void _main (String[] args)
 	{
 		Controlador controlador = new Controlador();
 		controlador.inicializar();
