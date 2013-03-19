@@ -174,14 +174,14 @@ public abstract class Cromosoma {
 		int a = Integer.parseInt(s, 2);
 		double b = xMin + (xMax - xMin);
 		b = b * a;
-		double c = (Math.pow(2,longitud) - 1);
+		double c = (Math.pow(2,longitudX) - 1);
 		double fenotipoX = b / c;
 		s = this.toString();
 		s = s.substring(longitudX+1,longitud);
 		a = Integer.parseInt(s, 2);
 		b = xMin + (xMax - xMin);
 		b = b * a;
-		c = (Math.pow(2,longitud) - 1);
+		c = (Math.pow(2,longitudY) - 1);
 		double fenotipoY = b / c;
 		double fenotipo[] = new double[2];
 		fenotipo[0]=fenotipoX;
